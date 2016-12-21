@@ -24,11 +24,12 @@ A couple code examples:
         }
     } while (ctl.nextPageToken != null);
     
-    # Find videos near you! 
+    # Find videos near you!
     SearchList sl = null;
     String pageToken = "";
     do {
-        sl = data.getSearchVideosAtLocation("", SearchList.MAX_RESULTS, "", SearchList.ORDER_DATE, "", "1mi");
+        # Location takes latitude,longitude and a radius using m, km, ft, or mi.
+        sl = data.getSearchVideosAtLocation("", SearchList.MAX_RESULTS, "", SearchList.ORDER_DATE, "40.2822047,-76.9154449", "1mi");
         pageToken = sl.nextPageToken;
         for(SearchList.Item item : sl.items) {
             if(item.hasSnippet()) {
