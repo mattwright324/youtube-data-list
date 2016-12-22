@@ -2,8 +2,6 @@ package mattw.youtube.datav3.list;
 
 import java.util.Date;
 
-import com.google.gson.annotations.SerializedName;
-
 import mattw.youtube.datav3.YoutubeData;
 
 public class SearchList extends ListResponse {
@@ -72,18 +70,6 @@ public class SearchList extends ListResponse {
 			public Thumbnails thumbnails;
 			public String channelTitle;
 			public String liveBroadcastContent;
-			
-			public class Thumbnails {
-				@SerializedName("default")
-				public Thumbnail default_thumb;
-				public Thumbnail medium;
-				public Thumbnail high;
-				public class Thumbnail {
-					public String url;
-					public int width;
-					public int height;
-				}
-			}
 		}
 	}
 	
