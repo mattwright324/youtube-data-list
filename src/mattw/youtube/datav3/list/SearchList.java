@@ -63,13 +63,20 @@ public class SearchList extends ListResponse {
 			public String playlistId;
 		}
 		public class Snippet {
-			public Date publishedDate;
+			public Date publishedAt;
 			public String channelId;
 			public String title;
 			public String description;
 			public Thumbnails thumbnails;
 			public String channelTitle;
 			public String liveBroadcastContent;
+		}
+		
+		public String toString() {
+			if(hasSnippet()) {
+				return snippet.title;
+			}
+			return super.toString();
 		}
 	}
 	

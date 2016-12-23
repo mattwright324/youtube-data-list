@@ -26,7 +26,7 @@ public class CommentThreadsList extends ListResponse {
 		return getCommentThreadsUrl(apiKey, part)+"&allThreadsRelatedToChannelId="+channelId+"&maxResults="+maxResults+"&pageToken="+pageToken;
 	}
 	public static String getCommentThreadsRelatedToChannelIdUrl(String apiKey, String part, String channelId, int maxResults, String pageToken, String order) {
-		return getCommentThreadsRelatedToChannelIdUrl(apiKey, part, channelId, maxResults, pageToken)+"&order="+maxResults;
+		return getCommentThreadsRelatedToChannelIdUrl(apiKey, part, channelId, maxResults, pageToken)+"&order="+order;
 	}
 	public static String getCommentThreadsRelatedToChannelIdUrl(String apiKey, String part, String channelId, int maxResults, String pageToken, String order, String searchTerms) {
 		return getCommentThreadsRelatedToChannelIdUrl(apiKey, part, channelId, maxResults, pageToken, order)+"&searchTerms="+searchTerms;
@@ -36,10 +36,10 @@ public class CommentThreadsList extends ListResponse {
 	}
 	
 	public static String getCommentThreadsByChannelIdUrl(String apiKey, String part, String channelId, int maxResults, String pageToken) {
-		return getCommentThreadsUrl(apiKey, part)+"&channelId="+channelId+"&maxResults="+maxResults;
+		return getCommentThreadsUrl(apiKey, part)+"&channelId="+channelId+"&maxResults="+maxResults+"&pageToken="+pageToken;
 	}
 	public static String getCommentThreadsByChannelIdUrl(String apiKey, String part, String channelId, int maxResults, String pageToken, String order) {
-		return getCommentThreadsByChannelIdUrl(apiKey, part, channelId, maxResults, pageToken)+"&order="+maxResults;
+		return getCommentThreadsByChannelIdUrl(apiKey, part, channelId, maxResults, pageToken)+"&order="+order;
 	}
 	public static String getCommentThreadsByChannelIdUrl(String apiKey, String part, String channelId, int maxResults, String pageToken, String order, String searchTerms) {
 		return getCommentThreadsByChannelIdUrl(apiKey, part, channelId, maxResults, pageToken, order)+"&searchTerms="+searchTerms;
@@ -49,10 +49,10 @@ public class CommentThreadsList extends ListResponse {
 	}
 	
 	public static String getCommentThreadsByVideoIdUrl(String apiKey, String part, String videoId, int maxResults, String pageToken) {
-		return getCommentThreadsUrl(apiKey, part)+"&videoId="+videoId+"&maxResults="+maxResults;
+		return getCommentThreadsUrl(apiKey, part)+"&videoId="+videoId+"&maxResults="+maxResults+"&pageToken="+pageToken;
 	}
 	public static String getCommentThreadsByVideoIdUrl(String apiKey, String part, String channelId, int maxResults, String pageToken, String order) {
-		return getCommentThreadsByVideoIdUrl(apiKey, part, channelId, maxResults, pageToken)+"&order="+maxResults;
+		return getCommentThreadsByVideoIdUrl(apiKey, part, channelId, maxResults, pageToken)+"&order="+order;
 	}
 	public static String getCommentThreadsByVideoIdUrl(String apiKey, String part, String channelId, int maxResults, String pageToken, String order, String searchTerms) {
 		return getCommentThreadsByVideoIdUrl(apiKey, part, channelId, maxResults, pageToken, order)+"&searchTerms="+searchTerms;
@@ -78,12 +78,12 @@ public class CommentThreadsList extends ListResponse {
 			public String channelId;
 			public String videoId;
 			public boolean canReply;
-			public CommentsList.Item.Snippet topLevelComment;
+			public CommentsList.Item topLevelComment;
 			public int totalReplyCount;
 			public boolean isPublic;
 		}
 		public class Replies extends ListResponse.Part {
-			public CommentsList.Item.Snippet[] comments;
+			public CommentsList.Item[] comments;
 		}
 	}
 	

@@ -272,7 +272,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public CommentThreadsList getCommentThreadsRelatedToChannelId(String part, String channelId, int maxResults, String pageToken, String order) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsRelatedToChannelIdUrl(DATA_API_KEY, part, channelId, maxResults, pageToken)), CommentThreadsList.class);
+		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsRelatedToChannelIdUrl(DATA_API_KEY, part, channelId, maxResults, pageToken, order)), CommentThreadsList.class);
 	}
 	/**
 	 * Retrieve all commentThreads related to a channel (discussion and videos). Results may be ordered. Restrict comments by search terms.
@@ -287,7 +287,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public CommentThreadsList getCommentThreadsRelatedToChannelId(String part, String channelId, int maxResults, String pageToken, String order, String searchTerms) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsRelatedToChannelIdUrl(DATA_API_KEY, part, channelId, maxResults, pageToken)), CommentThreadsList.class);
+		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsRelatedToChannelIdUrl(DATA_API_KEY, part, channelId, maxResults, pageToken, order, searchTerms)), CommentThreadsList.class);
 	}
 	/**
 	 * Retrieve all commentThreads related to a channel (discussion and videos). Results may be ordered. Restrict comments by search terms. Determine the format of the comment text.
@@ -303,7 +303,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public CommentThreadsList getCommentThreadsRelatedToChannelId(String part, String channelId, int maxResults, String pageToken, String order, String searchTerms, String textFormat) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsRelatedToChannelIdUrl(DATA_API_KEY, part, channelId, maxResults, pageToken)), CommentThreadsList.class);
+		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsRelatedToChannelIdUrl(DATA_API_KEY, part, channelId, maxResults, pageToken, order, searchTerms, textFormat)), CommentThreadsList.class);
 	}
 	/**
 	 * Return only commentThreads related to the channel (discussion).
@@ -330,7 +330,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public CommentThreadsList getCommentThreadsByChannelId(String part, String channelId, int maxResults, String pageToken, String order) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsByChannelIdUrl(DATA_API_KEY, part, channelId, maxResults, pageToken)), CommentThreadsList.class);
+		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsByChannelIdUrl(DATA_API_KEY, part, channelId, maxResults, pageToken, order)), CommentThreadsList.class);
 	}
 	/**
 	 * Return only commentThreads related to the channel (discussion).
@@ -345,7 +345,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public CommentThreadsList getCommentThreadsByChannelId(String part, String channelId, int maxResults, String pageToken, String order, String searchTerms) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsByChannelIdUrl(DATA_API_KEY, part, channelId, maxResults, pageToken)), CommentThreadsList.class);
+		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsByChannelIdUrl(DATA_API_KEY, part, channelId, maxResults, pageToken, order, searchTerms)), CommentThreadsList.class);
 	}
 	/**
 	 * Return only commentThreads related to the channel (discussion).
@@ -361,7 +361,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public CommentThreadsList getCommentThreadsByChannelId(String part, String channelId, int maxResults, String pageToken, String order, String searchTerms, String textFormat) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsByChannelIdUrl(DATA_API_KEY, part, channelId, maxResults, pageToken)), CommentThreadsList.class);
+		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsByChannelIdUrl(DATA_API_KEY, part, channelId, maxResults, pageToken, order, searchTerms, textFormat)), CommentThreadsList.class);
 	}
 	/**
 	 * Return only commentThreads related to a video. 
@@ -388,7 +388,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public CommentThreadsList getCommentThreadsByVideoId(String part, String videoId, int maxResults, String pageToken, String order) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsByVideoIdUrl(DATA_API_KEY, part, videoId, maxResults, pageToken)), CommentThreadsList.class);
+		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsByVideoIdUrl(DATA_API_KEY, part, videoId, maxResults, pageToken, order)), CommentThreadsList.class);
 	}
 	/**
 	 * Return only commentThreads related to a video. 
@@ -403,7 +403,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public CommentThreadsList getCommentThreadsByVideoId(String part, String videoId, int maxResults, String pageToken, String order, String searchTerms) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsByVideoIdUrl(DATA_API_KEY, part, videoId, maxResults, pageToken)), CommentThreadsList.class);
+		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsByVideoIdUrl(DATA_API_KEY, part, videoId, maxResults, pageToken, order, searchTerms)), CommentThreadsList.class);
 	}
 	/**
 	 * Return only commentThreads related to a video. 
@@ -419,7 +419,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public CommentThreadsList getCommentThreadsByVideoId(String part, String videoId, int maxResults, String pageToken, String order, String searchTerms, String textFormat) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsByVideoIdUrl(DATA_API_KEY, part, videoId, maxResults, pageToken)), CommentThreadsList.class);
+		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsByVideoIdUrl(DATA_API_KEY, part, videoId, maxResults, pageToken, order, searchTerms, textFormat)), CommentThreadsList.class);
 	}
 	
 	/**
