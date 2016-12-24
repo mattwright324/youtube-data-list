@@ -248,6 +248,33 @@ public class YoutubeData {
 	}
 	
 	/**
+	 * Get comments related to a specific comment id.
+	 * @param parentId     The id of the top level comment.
+	 * @param maxResults   Must be between 1 and 100.
+	 * @param pageToken    May be empty. Use nextPageToken.
+	 * @return
+	 * @throws JsonSyntaxException
+	 * @throws IOException
+	 */
+	public CommentsList getCommentsByParentId(String parentId, int maxResults, String pageToken) throws JsonSyntaxException, IOException {
+		return gson.fromJson(getJson(CommentsList.getCommentsByParentIdUrl(DATA_API_KEY, CommentsList.PART_SNIPPET, parentId, maxResults, pageToken)), CommentsList.class);
+	}
+	
+	/**
+	 * Get comments related to a specific comment id.
+	 * @param parentId     The id of the top level comment.
+	 * @param maxResults   Must be between 1 and 100.
+	 * @param pageToken    May be empty. Use nextPageToken.
+	 * @param textFormat   May be empty. Use either plain or html. Formats comment text.
+	 * @return
+	 * @throws JsonSyntaxException
+	 * @throws IOException
+	 */
+	public CommentsList getCommentsByParentId(String parentId, int maxResults, String pageToken, String textFormat) throws JsonSyntaxException, IOException {
+		return gson.fromJson(getJson(CommentsList.getCommentsByParentIdUrl(DATA_API_KEY, CommentsList.PART_SNIPPET, parentId, maxResults, pageToken, textFormat)), CommentsList.class);
+	}
+	
+	/**
 	 * Retrieve all commentThreads related to a channel (discussion and videos). Default ordered by relevance.
 	 * @param part          Must be either snippet or replies.
 	 * @param channelId     The id for the channel. Found after <b>youtube.com/channel/</b>
@@ -422,9 +449,9 @@ public class YoutubeData {
 		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsByVideoIdUrl(DATA_API_KEY, part, videoId, maxResults, pageToken, order, searchTerms, textFormat)), CommentThreadsList.class);
 	}
 	/**
-	 * Return only commentThreads related to a video. 
+	 * Return only commentThreads related to a comment. 
 	 * @param part         Must be either snippet or replies.
-	 * @param videoId      The id for the video.
+	 * @param commentId    The id for the comment.
 	 * @param maxResults   Must be between 1 and 100.
 	 * @param pageToken    May be empty. Use nextPageToken.
 	 * @return
@@ -435,9 +462,9 @@ public class YoutubeData {
 		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsByCommentIdUrl(DATA_API_KEY, part, commentId, maxResults, pageToken)), CommentThreadsList.class);
 	}
 	/**
-	 * Return only commentThreads related to a video. 
+	 * Return only commentThreads related to a comment. 
 	 * @param part          Must be either snippet or replies.
-	 * @param videoId       The id for the video.
+	 * @param commentId     The id for the comment.
 	 * @param maxResults    Must be between 1 and 100.
 	 * @param pageToken     May be empty. Use nextPageToken.
 	 * @param order         May be empty. Order by relevance (default) or time.
@@ -449,9 +476,9 @@ public class YoutubeData {
 		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsByCommentIdUrl(DATA_API_KEY, part, commentId, maxResults, pageToken, order)), CommentThreadsList.class);
 	}
 	/**
-	 * Return only commentThreads related to a video. 
+	 * Return only commentThreads related to a comment. 
 	 * @param part          Must be either snippet or replies.
-	 * @param videoId       The id for the video.
+	 * @param commentId     The id for the comment.
 	 * @param maxResults    Must be between 1 and 100.
 	 * @param pageToken     May be empty. Use nextPageToken.
 	 * @param order         May be empty. Order by relevance (default) or time.
@@ -464,9 +491,9 @@ public class YoutubeData {
 		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsByCommentIdUrl(DATA_API_KEY, part, commentId, maxResults, pageToken, order, searchTerms)), CommentThreadsList.class);
 	}
 	/**
-	 * Return only commentThreads related to a video. 
+	 * Return only commentThreads related to a comment. 
 	 * @param part          Must be either snippet or replies.
-	 * @param videoId       The id for the video.
+	 * @param commentId     The id for the comment.
 	 * @param maxResults    Must be between 1 and 100.
 	 * @param pageToken     May be empty. Use nextPageToken.
 	 * @param order         May be empty. Order by relevance (default) or time.

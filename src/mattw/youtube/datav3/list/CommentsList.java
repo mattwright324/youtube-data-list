@@ -32,6 +32,14 @@ public class CommentsList extends ListResponse {
 		return getCommentsUrl(apiKey, part, id, maxResults)+"&pageToken="+pageToken+"&textFormat="+textFormat;
 	}
 	
+	public static String getCommentsByParentIdUrl(String apiKey, String part, String parentId, int maxResults, String pageToken) {
+		return YoutubeData.BASE_API+"/comments?key="+apiKey+"&part="+part+"&parentId="+parentId+"&maxResults="+maxResults+"&pageToken"+pageToken;
+	}
+	
+	public static String getCommentsByParentIdUrl(String apiKey, String part, String parentId, int maxResults, String pageToken, String textFormat) {
+		return getCommentsByParentIdUrl(apiKey, part, parentId, maxResults, pageToken)+"&textFormat="+textFormat;
+	}
+	
 	public class Item extends ListResponse.Item {
 		
 		public Snippet snippet;
