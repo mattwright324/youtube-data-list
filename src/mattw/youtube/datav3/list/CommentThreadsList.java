@@ -51,14 +51,27 @@ public class CommentThreadsList extends ListResponse {
 	public static String getCommentThreadsByVideoIdUrl(String apiKey, String part, String videoId, int maxResults, String pageToken) {
 		return getCommentThreadsUrl(apiKey, part)+"&videoId="+videoId+"&maxResults="+maxResults+"&pageToken="+pageToken;
 	}
-	public static String getCommentThreadsByVideoIdUrl(String apiKey, String part, String channelId, int maxResults, String pageToken, String order) {
-		return getCommentThreadsByVideoIdUrl(apiKey, part, channelId, maxResults, pageToken)+"&order="+order;
+	public static String getCommentThreadsByVideoIdUrl(String apiKey, String part, String videoId, int maxResults, String pageToken, String order) {
+		return getCommentThreadsByVideoIdUrl(apiKey, part, videoId, maxResults, pageToken)+"&order="+order;
 	}
-	public static String getCommentThreadsByVideoIdUrl(String apiKey, String part, String channelId, int maxResults, String pageToken, String order, String searchTerms) {
-		return getCommentThreadsByVideoIdUrl(apiKey, part, channelId, maxResults, pageToken, order)+"&searchTerms="+searchTerms;
+	public static String getCommentThreadsByVideoIdUrl(String apiKey, String part, String videoId, int maxResults, String pageToken, String order, String searchTerms) {
+		return getCommentThreadsByVideoIdUrl(apiKey, part, videoId, maxResults, pageToken, order)+"&searchTerms="+searchTerms;
 	}
-	public static String getCommentThreadsByVideoIdUrl(String apiKey, String part, String channelId, int maxResults, String pageToken, String order, String searchTerms, String textFormat) {
-		return getCommentThreadsByVideoIdUrl(apiKey, part, channelId, maxResults, pageToken, order, searchTerms)+"&textFormat="+textFormat;
+	public static String getCommentThreadsByVideoIdUrl(String apiKey, String part, String videoId, int maxResults, String pageToken, String order, String searchTerms, String textFormat) {
+		return getCommentThreadsByVideoIdUrl(apiKey, part, videoId, maxResults, pageToken, order, searchTerms)+"&textFormat="+textFormat;
+	}
+	
+	public static String getCommentThreadsByCommentIdUrl(String apiKey, String part, String commentId, int maxResults, String pageToken) {
+		return getCommentThreadsUrl(apiKey, part)+"&id="+commentId+"&maxResults="+maxResults+"&pageToken="+pageToken;
+	}
+	public static String getCommentThreadsByCommentIdUrl(String apiKey, String part, String commentId, int maxResults, String pageToken, String order) {
+		return getCommentThreadsByCommentIdUrl(apiKey, part, commentId, maxResults, pageToken)+"&order="+order;
+	}
+	public static String getCommentThreadsByCommentIdUrl(String apiKey, String part, String commentId, int maxResults, String pageToken, String order, String searchTerms) {
+		return getCommentThreadsByCommentIdUrl(apiKey, part, commentId, maxResults, pageToken, order)+"&searchTerms="+searchTerms;
+	}
+	public static String getCommentThreadsByCommentIdUrl(String apiKey, String part, String commentId, int maxResults, String pageToken, String order, String searchTerms, String textFormat) {
+		return getCommentThreadsByCommentIdUrl(apiKey, part, commentId, maxResults, pageToken, order, searchTerms)+"&textFormat="+textFormat;
 	}
 	
 	public class Item extends ListResponse.Item {

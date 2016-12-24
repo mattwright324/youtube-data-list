@@ -421,6 +421,64 @@ public class YoutubeData {
 	public CommentThreadsList getCommentThreadsByVideoId(String part, String videoId, int maxResults, String pageToken, String order, String searchTerms, String textFormat) throws JsonSyntaxException, IOException {
 		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsByVideoIdUrl(DATA_API_KEY, part, videoId, maxResults, pageToken, order, searchTerms, textFormat)), CommentThreadsList.class);
 	}
+	/**
+	 * Return only commentThreads related to a video. 
+	 * @param part         Must be either snippet or replies.
+	 * @param videoId      The id for the video.
+	 * @param maxResults   Must be between 1 and 100.
+	 * @param pageToken    May be empty. Use nextPageToken.
+	 * @return
+	 * @throws JsonSyntaxException
+	 * @throws IOException
+	 */
+	public CommentThreadsList getCommentThreadsByCommentId(String part, String commentId, int maxResults, String pageToken) throws JsonSyntaxException, IOException {
+		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsByCommentIdUrl(DATA_API_KEY, part, commentId, maxResults, pageToken)), CommentThreadsList.class);
+	}
+	/**
+	 * Return only commentThreads related to a video. 
+	 * @param part          Must be either snippet or replies.
+	 * @param videoId       The id for the video.
+	 * @param maxResults    Must be between 1 and 100.
+	 * @param pageToken     May be empty. Use nextPageToken.
+	 * @param order         May be empty. Order by relevance (default) or time.
+	 * @return
+	 * @throws JsonSyntaxException
+	 * @throws IOException
+	 */
+	public CommentThreadsList getCommentThreadsByCommentId(String part, String commentId, int maxResults, String pageToken, String order) throws JsonSyntaxException, IOException {
+		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsByCommentIdUrl(DATA_API_KEY, part, commentId, maxResults, pageToken, order)), CommentThreadsList.class);
+	}
+	/**
+	 * Return only commentThreads related to a video. 
+	 * @param part          Must be either snippet or replies.
+	 * @param videoId       The id for the video.
+	 * @param maxResults    Must be between 1 and 100.
+	 * @param pageToken     May be empty. Use nextPageToken.
+	 * @param order         May be empty. Order by relevance (default) or time.
+	 * @param searchTerms   May be empty. Restrict comments by search terms.
+	 * @return
+	 * @throws JsonSyntaxException
+	 * @throws IOException
+	 */
+	public CommentThreadsList getCommentThreadsByCommentId(String part, String commentId, int maxResults, String pageToken, String order, String searchTerms) throws JsonSyntaxException, IOException {
+		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsByCommentIdUrl(DATA_API_KEY, part, commentId, maxResults, pageToken, order, searchTerms)), CommentThreadsList.class);
+	}
+	/**
+	 * Return only commentThreads related to a video. 
+	 * @param part          Must be either snippet or replies.
+	 * @param videoId       The id for the video.
+	 * @param maxResults    Must be between 1 and 100.
+	 * @param pageToken     May be empty. Use nextPageToken.
+	 * @param order         May be empty. Order by relevance (default) or time.
+	 * @param searchTerms   May be empty. Restrict comments by search terms.
+	 * @param textFormat    May be empty. Choose either html (default) or plain.
+	 * @return
+	 * @throws JsonSyntaxException
+	 * @throws IOException
+	 */
+	public CommentThreadsList getCommentThreadsByCommentId(String part, String commentId, int maxResults, String pageToken, String order, String searchTerms, String textFormat) throws JsonSyntaxException, IOException {
+		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsByCommentIdUrl(DATA_API_KEY, part, commentId, maxResults, pageToken, order, searchTerms, textFormat)), CommentThreadsList.class);
+	}
 	
 	/**
 	 * Return a list of guide categories based on channel-category ids.
