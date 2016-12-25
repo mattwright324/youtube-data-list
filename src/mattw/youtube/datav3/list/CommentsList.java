@@ -20,20 +20,16 @@ public class CommentsList extends ListResponse {
 	public String nextPageToken;
 	public Item[] items;
 	
-	public static String getCommentsUrl(String apiKey, String part, String id, int maxResults) {
-		return YoutubeData.BASE_API+"/comments?key="+apiKey+"&part="+part+"&id="+id+"&maxResults="+maxResults;
+	public static String getCommentsUrl(String apiKey, String part, String id) {
+		return YoutubeData.BASE_API+"/comments?key="+apiKey+"&part="+part+"&id="+id;
 	}
 	
-	public static String getCommentsUrl(String apiKey, String part, String id, int maxResults, String pageToken) {
-		return getCommentsUrl(apiKey, part, id, maxResults)+"&pageToken="+pageToken;
-	}
-	
-	public static String getCommentsUrl(String apiKey, String part, String id, int maxResults, String pageToken, String textFormat) {
-		return getCommentsUrl(apiKey, part, id, maxResults)+"&pageToken="+pageToken+"&textFormat="+textFormat;
+	public static String getCommentsUrl(String apiKey, String part, String id, String textFormat) {
+		return getCommentsUrl(apiKey, part, id)+"&textFormat="+textFormat;
 	}
 	
 	public static String getCommentsByParentIdUrl(String apiKey, String part, String parentId, int maxResults, String pageToken) {
-		return YoutubeData.BASE_API+"/comments?key="+apiKey+"&part="+part+"&parentId="+parentId+"&maxResults="+maxResults+"&pageToken"+pageToken;
+		return YoutubeData.BASE_API+"/comments?key="+apiKey+"&part="+part+"&parentId="+parentId+"&maxResults="+maxResults+"&pageToken="+pageToken;
 	}
 	
 	public static String getCommentsByParentIdUrl(String apiKey, String part, String parentId, int maxResults, String pageToken, String textFormat) {

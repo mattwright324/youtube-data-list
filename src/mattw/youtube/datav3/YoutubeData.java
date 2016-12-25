@@ -212,39 +212,24 @@ public class YoutubeData {
 	
 	/**
 	 * Get comments by their ids.
-	 * @param id           A comme-separated list of comment ids.
-	 * @param maxResults   Must be between 1 and 100.
+	 * @param id           A comma-separated list of comment ids.
 	 * @return
 	 * @throws JsonSyntaxException
 	 * @throws IOException
 	 */
-	public CommentsList getComments(String id, int maxResults) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(CommentsList.getCommentsUrl(DATA_API_KEY, CommentsList.PART_SNIPPET, id, maxResults)), CommentsList.class);
+	public CommentsList getComments(String id) throws JsonSyntaxException, IOException {
+		return gson.fromJson(getJson(CommentsList.getCommentsUrl(DATA_API_KEY, CommentsList.PART_SNIPPET, id)), CommentsList.class);
 	}
 	/**
 	 * Get comments by their ids.
 	 * @param id           A comma-separated list of comment ids.
-	 * @param maxResults   Must be between 1 and 100.
-	 * @param pageToken    May be empty, use nextPageToken.
-	 * @return
-	 * @throws JsonSyntaxException
-	 * @throws IOException
-	 */
-	public CommentsList getComments(String id, int maxResults, String pageToken) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(CommentsList.getCommentsUrl(DATA_API_KEY, CommentsList.PART_SNIPPET, id, maxResults, pageToken)), CommentsList.class);
-	}
-	/**
-	 * Get comments by their ids.
-	 * @param id           A comma-separated list of comment ids.
-	 * @param maxResults   Must be between 1 and 100.
-	 * @param pageToken    May be empty, use nextPageToken.
 	 * @param textFormat   May be empty. Choose either html or plain. 
 	 * @return
 	 * @throws JsonSyntaxException
 	 * @throws IOException
 	 */
-	public CommentsList getComments(String id, int maxResults, String pageToken, String textFormat) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(CommentsList.getCommentsUrl(DATA_API_KEY, CommentsList.PART_SNIPPET, id, maxResults, pageToken, textFormat)), CommentsList.class);
+	public CommentsList getComments(String id, String textFormat) throws JsonSyntaxException, IOException {
+		return gson.fromJson(getJson(CommentsList.getCommentsUrl(DATA_API_KEY, CommentsList.PART_SNIPPET, id, textFormat)), CommentsList.class);
 	}
 	
 	/**
