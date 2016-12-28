@@ -780,8 +780,8 @@ public class YoutubeData {
 	    BufferedReader br;
 	    String line;
 	    String text = "";
-        is = url.openStream();  // throws an IOException
-        br = new BufferedReader(new InputStreamReader(is));
+        is = url.openStream();
+        br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
         while ((line = br.readLine()) != null) {
             text += line;
         }
