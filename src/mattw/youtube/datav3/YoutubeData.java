@@ -29,7 +29,7 @@ import mattw.youtube.datav3.list.*;
  */
 public class YoutubeData {
 	
-	public final String DATA_API_KEY;
+	public String data_api_key, access_token;
 	public static final String BASE_API = "https://www.googleapis.com/youtube/v3";
 	public final Gson gson = new GsonBuilder()
 			.excludeFieldsWithModifiers(Modifier.PRIVATE, Modifier.FINAL, Modifier.STATIC, Modifier.ABSTRACT)
@@ -41,8 +41,17 @@ public class YoutubeData {
 	 * 
 	 * @param data_api_key
 	 */
-	public YoutubeData(String data_api_key) {
-		DATA_API_KEY = data_api_key;
+	public YoutubeData(String data_key) {
+		data_api_key = data_key;
+	}
+	
+	public YoutubeData(String data_key, String access_token) {
+		data_api_key = data_key;
+		this.access_token = access_token;
+	}
+	
+	public void setAccessToken(String access_token) {
+		this.access_token = access_token;
 	}
 	
 	/**
@@ -56,7 +65,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public ActivitiesList getActivities(String part, String channelId, int maxResults) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(ActivitiesList.getActivitiesUrl(DATA_API_KEY, part, channelId, maxResults)), ActivitiesList.class);
+		return gson.fromJson(getJson(ActivitiesList.getActivitiesUrl(data_api_key, part, channelId, maxResults)), ActivitiesList.class);
 	}
 	/**
 	 * Retrieve a list of activities/events from a channel: uploads, likes, favorites, comments, subcriptions, playlists, recommendations, bullitens, social, and channel items.
@@ -70,7 +79,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public ActivitiesList getActivities(String part, String channelId, int maxResults, String pageToken) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(ActivitiesList.getActivitiesUrl(DATA_API_KEY, part, channelId, maxResults, pageToken)), ActivitiesList.class);
+		return gson.fromJson(getJson(ActivitiesList.getActivitiesUrl(data_api_key, part, channelId, maxResults, pageToken)), ActivitiesList.class);
 	}
 	/**
 	 * Retrieve a list of activities/events from a channel: uploads, likes, favorites, comments, subcriptions, playlists, recommendations, bullitens, social, and channel items. 
@@ -86,7 +95,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public ActivitiesList getActivities(String part, String channelId, int maxResults, String pageToken, Date publishedAfter, Date publishedBefore) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(ActivitiesList.getActivitiesUrl(DATA_API_KEY, part, channelId, maxResults, pageToken, publishedAfter, publishedBefore)), ActivitiesList.class);
+		return gson.fromJson(getJson(ActivitiesList.getActivitiesUrl(data_api_key, part, channelId, maxResults, pageToken, publishedAfter, publishedBefore)), ActivitiesList.class);
 	}
 	
 	/**
@@ -97,7 +106,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public CaptionsList getCaptions(String videoId) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(CaptionsList.getCaptionsUrl(DATA_API_KEY, CaptionsList.PART_SNIPPET, videoId)), CaptionsList.class);
+		return gson.fromJson(getJson(CaptionsList.getCaptionsUrl(data_api_key, CaptionsList.PART_SNIPPET, videoId)), CaptionsList.class);
 	}
 	/**
 	 * Get caption information for a specific video.
@@ -108,7 +117,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public CaptionsList getCaptions(String videoId, String ids) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(CaptionsList.getCaptionsUrl(DATA_API_KEY, CaptionsList.PART_SNIPPET, videoId, ids)), CaptionsList.class);
+		return gson.fromJson(getJson(CaptionsList.getCaptionsUrl(data_api_key, CaptionsList.PART_SNIPPET, videoId, ids)), CaptionsList.class);
 	}
 	
 	/**
@@ -120,7 +129,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public ChannelSectionsList getChannelSectionsByChannelId(String part, String channelId) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(ChannelSectionsList.getChannelSectionsByChannelIdUrl(DATA_API_KEY, part, channelId)), ChannelSectionsList.class);
+		return gson.fromJson(getJson(ChannelSectionsList.getChannelSectionsByChannelIdUrl(data_api_key, part, channelId)), ChannelSectionsList.class);
 	}
 	/**
 	 * Retrieves the sections on a channel page for example the horizontal rows of uploads, playlists, and channels.
@@ -131,21 +140,10 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public ChannelSectionsList getChannelSectionsBySectionIdsUrl(String part, String sectionId) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(ChannelSectionsList.getChannelSectionsBySectionIdsUrl(DATA_API_KEY, part, sectionId)), ChannelSectionsList.class);
+		return gson.fromJson(getJson(ChannelSectionsList.getChannelSectionsBySectionIdsUrl(data_api_key, part, sectionId)), ChannelSectionsList.class);
 	}
 	
-	/**
-	 * Retrieve specific information about channels in a category. 
-	 * @param part          Must be either id, auditDetails, brandingDetails, contentDetails, contentOwnerDetails, invideoPromotion, snippet, statistics, status, or topicDetails.
-	 * @param categoryId    A categoryId provided by the GuideCategoriesList methods.
-	 * @param maxResults    Must be between 0 and 50.
-	 * @return
-	 * @throws JsonSyntaxException
-	 * @throws IOException
-	 */
-	public ChannelsList getChannelsByCategory(String part, String categoryId, int maxResults) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(ChannelsList.getChannelsByCategoryUrl(DATA_API_KEY, part, categoryId, maxResults)), ChannelsList.class);
-	}
+	
 	/**
 	 * Retrieve specific information about channels in a category. 
 	 * @param part          Must be either id, auditDetails, brandingDetails, contentDetails, contentOwnerDetails, invideoPromotion, snippet, statistics, status, or topicDetails.
@@ -157,20 +155,9 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public ChannelsList getChannelsByCategory(String part, String categoryId, int maxResults, String pageToken) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(ChannelsList.getChannelsByCategoryUrl(DATA_API_KEY, part, categoryId, maxResults, pageToken)), ChannelsList.class);
+		return gson.fromJson(getJson(ChannelsList.getChannelsByCategoryUrl(data_api_key, part, categoryId, maxResults, pageToken)), ChannelsList.class);
 	}
-	/**
-	 * Retrieve specific channel information with a channels username. The channel username is not the channelId.
-	 * @param part          Must be either id, auditDetails, brandingDetails, contentDetails, contentOwnerDetails, invideoPromotion, snippet, statistics, status, or topicDetails.
-	 * @param username      The channels username. Found at the end of a <b>youtube.com/user/</b> link.
-	 * @param maxResults    Must be between 0 and 50.
-	 * @return
-	 * @throws JsonSyntaxException
-	 * @throws IOException
-	 */
-	public ChannelsList getChannelsByUsername(String part, String username, int maxResults) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(ChannelsList.getChannelsByUsernameUrl(DATA_API_KEY, part, username, maxResults)), ChannelsList.class);
-	}
+	
 	/**
 	 * Retrieve specific channel information with a channels username. The channel username is not the channelId.
 	 * @param part          Must be either id, auditDetails, brandingDetails, contentDetails, contentOwnerDetails, invideoPromotion, snippet, statistics, status, or topicDetails.
@@ -182,19 +169,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public ChannelsList getChannelsByUsername(String part, String username, int maxResults, String pageToken) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(ChannelsList.getChannelsByUsernameUrl(DATA_API_KEY, part, username, maxResults, pageToken)), ChannelsList.class);
-	}
-	/**
-	 * Retrieve specific information about a channel with its channelId.
-	 * @param part        Must be either id, auditDetails, brandingDetails, contentDetails, contentOwnerDetails, invideoPromotion, snippet, statistics, status, or topicDetails.
-	 * @param channelId   The channelId for a channel. Found at the end of a <b>youtube.com/channel/</b> link.
-	 * @param maxResults  Must be between 0 and 50.
-	 * @return
-	 * @throws JsonSyntaxException
-	 * @throws IOException
-	 */
-	public ChannelsList getChannelsByChannelId(String part, String channelId, int maxResults) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(ChannelsList.getChannelsByChannelIdUrl(DATA_API_KEY, part, channelId, maxResults)), ChannelsList.class);
+		return gson.fromJson(getJson(ChannelsList.getChannelsByUsernameUrl(data_api_key, part, username, maxResults, pageToken)), ChannelsList.class);
 	}
 	/**
 	 * Retrieve specific information about a channel with its channelId.
@@ -207,7 +182,17 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public ChannelsList getChannelsByChannelId(String part, String channelId, int maxResults, String pageToken) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(ChannelsList.getChannelsByChannelIdUrl(DATA_API_KEY, part, channelId, maxResults, pageToken)), ChannelsList.class);
+		return gson.fromJson(getJson(ChannelsList.getChannelsByChannelIdUrl(data_api_key, part, channelId, maxResults, pageToken)), ChannelsList.class);
+	}
+	/**
+	 * Retrieve information about your channel.
+	 * @param part       Must be either id, auditDetails, brandingDetails, contentDetails, contentOwnerDetails, invideoPromotion, snippet, statistics, status, or topicDetails.
+	 * @return
+	 * @throws JsonSyntaxException
+	 * @throws IOException
+	 */
+	public ChannelsList getChannelsByMine(String part) throws JsonSyntaxException, IOException {
+		return gson.fromJson(getJson(ChannelsList.getChannelsByMineUrl(data_api_key, access_token, part)), ChannelsList.class);
 	}
 	
 	/**
@@ -218,7 +203,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public CommentsList getComments(String id) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(CommentsList.getCommentsUrl(DATA_API_KEY, CommentsList.PART_SNIPPET, id)), CommentsList.class);
+		return gson.fromJson(getJson(CommentsList.getCommentsUrl(data_api_key, CommentsList.PART_SNIPPET, id)), CommentsList.class);
 	}
 	/**
 	 * Get comments by their ids.
@@ -229,7 +214,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public CommentsList getComments(String id, String textFormat) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(CommentsList.getCommentsUrl(DATA_API_KEY, CommentsList.PART_SNIPPET, id, textFormat)), CommentsList.class);
+		return gson.fromJson(getJson(CommentsList.getCommentsUrl(data_api_key, CommentsList.PART_SNIPPET, id, textFormat)), CommentsList.class);
 	}
 	
 	/**
@@ -242,7 +227,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public CommentsList getCommentsByParentId(String parentId, int maxResults, String pageToken) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(CommentsList.getCommentsByParentIdUrl(DATA_API_KEY, CommentsList.PART_SNIPPET, parentId, maxResults, pageToken)), CommentsList.class);
+		return gson.fromJson(getJson(CommentsList.getCommentsByParentIdUrl(data_api_key, CommentsList.PART_SNIPPET, parentId, maxResults, pageToken)), CommentsList.class);
 	}
 	
 	/**
@@ -256,7 +241,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public CommentsList getCommentsByParentId(String parentId, int maxResults, String pageToken, String textFormat) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(CommentsList.getCommentsByParentIdUrl(DATA_API_KEY, CommentsList.PART_SNIPPET, parentId, maxResults, pageToken, textFormat)), CommentsList.class);
+		return gson.fromJson(getJson(CommentsList.getCommentsByParentIdUrl(data_api_key, CommentsList.PART_SNIPPET, parentId, maxResults, pageToken, textFormat)), CommentsList.class);
 	}
 	
 	/**
@@ -270,7 +255,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public CommentThreadsList getCommentThreadsRelatedToChannelId(String part, String channelId, int maxResults, String pageToken) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsRelatedToChannelIdUrl(DATA_API_KEY, part, channelId, maxResults, pageToken)), CommentThreadsList.class);
+		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsRelatedToChannelIdUrl(data_api_key, part, channelId, maxResults, pageToken)), CommentThreadsList.class);
 	}
 	/**
 	 * Retrieve all commentThreads related to a channel (discussion and videos). Results may be ordered.
@@ -284,7 +269,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public CommentThreadsList getCommentThreadsRelatedToChannelId(String part, String channelId, int maxResults, String pageToken, String order) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsRelatedToChannelIdUrl(DATA_API_KEY, part, channelId, maxResults, pageToken, order)), CommentThreadsList.class);
+		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsRelatedToChannelIdUrl(data_api_key, part, channelId, maxResults, pageToken, order)), CommentThreadsList.class);
 	}
 	/**
 	 * Retrieve all commentThreads related to a channel (discussion and videos). Results may be ordered. Restrict comments by search terms.
@@ -299,7 +284,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public CommentThreadsList getCommentThreadsRelatedToChannelId(String part, String channelId, int maxResults, String pageToken, String order, String searchTerms) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsRelatedToChannelIdUrl(DATA_API_KEY, part, channelId, maxResults, pageToken, order, searchTerms)), CommentThreadsList.class);
+		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsRelatedToChannelIdUrl(data_api_key, part, channelId, maxResults, pageToken, order, searchTerms)), CommentThreadsList.class);
 	}
 	/**
 	 * Retrieve all commentThreads related to a channel (discussion and videos). Results may be ordered. Restrict comments by search terms. Determine the format of the comment text.
@@ -315,7 +300,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public CommentThreadsList getCommentThreadsRelatedToChannelId(String part, String channelId, int maxResults, String pageToken, String order, String searchTerms, String textFormat) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsRelatedToChannelIdUrl(DATA_API_KEY, part, channelId, maxResults, pageToken, order, searchTerms, textFormat)), CommentThreadsList.class);
+		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsRelatedToChannelIdUrl(data_api_key, part, channelId, maxResults, pageToken, order, searchTerms, textFormat)), CommentThreadsList.class);
 	}
 	/**
 	 * Return only commentThreads related to the channel (discussion).
@@ -328,7 +313,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public CommentThreadsList getCommentThreadsByChannelId(String part, String channelId, int maxResults, String pageToken) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsByChannelIdUrl(DATA_API_KEY, part, channelId, maxResults, pageToken)), CommentThreadsList.class);
+		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsByChannelIdUrl(data_api_key, part, channelId, maxResults, pageToken)), CommentThreadsList.class);
 	}
 	/**
 	 * Return only commentThreads related to the channel (discussion).
@@ -342,7 +327,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public CommentThreadsList getCommentThreadsByChannelId(String part, String channelId, int maxResults, String pageToken, String order) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsByChannelIdUrl(DATA_API_KEY, part, channelId, maxResults, pageToken, order)), CommentThreadsList.class);
+		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsByChannelIdUrl(data_api_key, part, channelId, maxResults, pageToken, order)), CommentThreadsList.class);
 	}
 	/**
 	 * Return only commentThreads related to the channel (discussion).
@@ -357,7 +342,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public CommentThreadsList getCommentThreadsByChannelId(String part, String channelId, int maxResults, String pageToken, String order, String searchTerms) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsByChannelIdUrl(DATA_API_KEY, part, channelId, maxResults, pageToken, order, searchTerms)), CommentThreadsList.class);
+		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsByChannelIdUrl(data_api_key, part, channelId, maxResults, pageToken, order, searchTerms)), CommentThreadsList.class);
 	}
 	/**
 	 * Return only commentThreads related to the channel (discussion).
@@ -373,7 +358,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public CommentThreadsList getCommentThreadsByChannelId(String part, String channelId, int maxResults, String pageToken, String order, String searchTerms, String textFormat) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsByChannelIdUrl(DATA_API_KEY, part, channelId, maxResults, pageToken, order, searchTerms, textFormat)), CommentThreadsList.class);
+		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsByChannelIdUrl(data_api_key, part, channelId, maxResults, pageToken, order, searchTerms, textFormat)), CommentThreadsList.class);
 	}
 	/**
 	 * Return only commentThreads related to a video. 
@@ -386,7 +371,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public CommentThreadsList getCommentThreadsByVideoId(String part, String videoId, int maxResults, String pageToken) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsByVideoIdUrl(DATA_API_KEY, part, videoId, maxResults, pageToken)), CommentThreadsList.class);
+		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsByVideoIdUrl(data_api_key, part, videoId, maxResults, pageToken)), CommentThreadsList.class);
 	}
 	/**
 	 * Return only commentThreads related to a video. 
@@ -400,7 +385,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public CommentThreadsList getCommentThreadsByVideoId(String part, String videoId, int maxResults, String pageToken, String order) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsByVideoIdUrl(DATA_API_KEY, part, videoId, maxResults, pageToken, order)), CommentThreadsList.class);
+		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsByVideoIdUrl(data_api_key, part, videoId, maxResults, pageToken, order)), CommentThreadsList.class);
 	}
 	/**
 	 * Return only commentThreads related to a video. 
@@ -415,7 +400,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public CommentThreadsList getCommentThreadsByVideoId(String part, String videoId, int maxResults, String pageToken, String order, String searchTerms) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsByVideoIdUrl(DATA_API_KEY, part, videoId, maxResults, pageToken, order, searchTerms)), CommentThreadsList.class);
+		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsByVideoIdUrl(data_api_key, part, videoId, maxResults, pageToken, order, searchTerms)), CommentThreadsList.class);
 	}
 	/**
 	 * Return only commentThreads related to a video. 
@@ -431,7 +416,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public CommentThreadsList getCommentThreadsByVideoId(String part, String videoId, int maxResults, String pageToken, String order, String searchTerms, String textFormat) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsByVideoIdUrl(DATA_API_KEY, part, videoId, maxResults, pageToken, order, searchTerms, textFormat)), CommentThreadsList.class);
+		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsByVideoIdUrl(data_api_key, part, videoId, maxResults, pageToken, order, searchTerms, textFormat)), CommentThreadsList.class);
 	}
 	/**
 	 * Return only commentThreads related to a comment. 
@@ -444,7 +429,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public CommentThreadsList getCommentThreadsByCommentId(String part, String commentId, int maxResults, String pageToken) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsByCommentIdUrl(DATA_API_KEY, part, commentId, maxResults, pageToken)), CommentThreadsList.class);
+		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsByCommentIdUrl(data_api_key, part, commentId, maxResults, pageToken)), CommentThreadsList.class);
 	}
 	/**
 	 * Return only commentThreads related to a comment. 
@@ -458,7 +443,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public CommentThreadsList getCommentThreadsByCommentId(String part, String commentId, int maxResults, String pageToken, String order) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsByCommentIdUrl(DATA_API_KEY, part, commentId, maxResults, pageToken, order)), CommentThreadsList.class);
+		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsByCommentIdUrl(data_api_key, part, commentId, maxResults, pageToken, order)), CommentThreadsList.class);
 	}
 	/**
 	 * Return only commentThreads related to a comment. 
@@ -473,7 +458,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public CommentThreadsList getCommentThreadsByCommentId(String part, String commentId, int maxResults, String pageToken, String order, String searchTerms) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsByCommentIdUrl(DATA_API_KEY, part, commentId, maxResults, pageToken, order, searchTerms)), CommentThreadsList.class);
+		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsByCommentIdUrl(data_api_key, part, commentId, maxResults, pageToken, order, searchTerms)), CommentThreadsList.class);
 	}
 	/**
 	 * Return only commentThreads related to a comment. 
@@ -489,7 +474,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public CommentThreadsList getCommentThreadsByCommentId(String part, String commentId, int maxResults, String pageToken, String order, String searchTerms, String textFormat) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsByCommentIdUrl(DATA_API_KEY, part, commentId, maxResults, pageToken, order, searchTerms, textFormat)), CommentThreadsList.class);
+		return gson.fromJson(getJson(CommentThreadsList.getCommentThreadsByCommentIdUrl(data_api_key, part, commentId, maxResults, pageToken, order, searchTerms, textFormat)), CommentThreadsList.class);
 	}
 	
 	/**
@@ -500,7 +485,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public GuideCategoriesList getGuideCategoriesByChannelIds(String ids) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(GuideCategoriesList.getGuideCategoriesByChannelIdsUrl(DATA_API_KEY, GuideCategoriesList.PART_SNIPPET, ids)), GuideCategoriesList.class);
+		return gson.fromJson(getJson(GuideCategoriesList.getGuideCategoriesByChannelIdsUrl(data_api_key, GuideCategoriesList.PART_SNIPPET, ids)), GuideCategoriesList.class);
 	}
 	
 	/**
@@ -511,7 +496,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public GuideCategoriesList getGuideCategoriesByRegionCode(String regionCode) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(GuideCategoriesList.getGuideCategoriesByRegionCodeUrl(DATA_API_KEY, GuideCategoriesList.PART_SNIPPET, regionCode)), GuideCategoriesList.class);
+		return gson.fromJson(getJson(GuideCategoriesList.getGuideCategoriesByRegionCodeUrl(data_api_key, GuideCategoriesList.PART_SNIPPET, regionCode)), GuideCategoriesList.class);
 	}
 	
 	/**
@@ -521,7 +506,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public I18nLanguagesList getI18nLanguages() throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(I18nLanguagesList.getI18nLanguagesUrl(DATA_API_KEY, I18nLanguagesList.PART_SNIPPET)), I18nLanguagesList.class);
+		return gson.fromJson(getJson(I18nLanguagesList.getI18nLanguagesUrl(data_api_key, I18nLanguagesList.PART_SNIPPET)), I18nLanguagesList.class);
 	}
 	
 	/**
@@ -531,7 +516,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public I18nRegionsList getI18nRegions() throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(I18nRegionsList.getI18nRegionsUrl(DATA_API_KEY, I18nLanguagesList.PART_SNIPPET)), I18nRegionsList.class);
+		return gson.fromJson(getJson(I18nRegionsList.getI18nRegionsUrl(data_api_key, I18nLanguagesList.PART_SNIPPET)), I18nRegionsList.class);
 	}
 	
 	/**
@@ -544,7 +529,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public PlaylistItemsList getPlaylistItems(String part, String playlistId, int maxResults) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(PlaylistItemsList.getPlaylistItemsUrl(DATA_API_KEY, part, playlistId, maxResults)), PlaylistItemsList.class);
+		return gson.fromJson(getJson(PlaylistItemsList.getPlaylistItemsUrl(data_api_key, part, playlistId, maxResults)), PlaylistItemsList.class);
 	}
 	/**
 	 * Returns the items found in a playlist.
@@ -557,7 +542,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public PlaylistItemsList getPlaylistItems(String part, String playlistId, int maxResults, String pageToken) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(PlaylistItemsList.getPlaylistItemsUrl(DATA_API_KEY, part, playlistId, maxResults, pageToken)), PlaylistItemsList.class);
+		return gson.fromJson(getJson(PlaylistItemsList.getPlaylistItemsUrl(data_api_key, part, playlistId, maxResults, pageToken)), PlaylistItemsList.class);
 	}
 	
 	/**
@@ -570,7 +555,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public PlaylistsList getPlaylistsByChannel(String part, String channelId, int maxResults) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(PlaylistsList.getPlaylistsByChannelUrl(DATA_API_KEY, part, channelId, maxResults)), PlaylistsList.class);
+		return gson.fromJson(getJson(PlaylistsList.getPlaylistsByChannelUrl(data_api_key, part, channelId, maxResults)), PlaylistsList.class);
 	}
 	/**
 	 * Returns a collection of playlists by a channel.
@@ -583,7 +568,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public PlaylistsList getPlaylistsByChannel(String part, String channelId, int maxResults, String pageToken) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(PlaylistsList.getPlaylistsByChannelUrl(DATA_API_KEY, part, channelId, maxResults, pageToken)), PlaylistsList.class);
+		return gson.fromJson(getJson(PlaylistsList.getPlaylistsByChannelUrl(data_api_key, part, channelId, maxResults, pageToken)), PlaylistsList.class);
 	}
 	
 	/**
@@ -596,7 +581,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public PlaylistsList getPlaylistsByPlaylist(String part, String playlistId, int maxResults) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(PlaylistsList.getPlaylistsByPlaylistUrl(DATA_API_KEY, part, playlistId, maxResults)), PlaylistsList.class);
+		return gson.fromJson(getJson(PlaylistsList.getPlaylistsByPlaylistUrl(data_api_key, part, playlistId, maxResults)), PlaylistsList.class);
 	}
 	
 	/**
@@ -610,7 +595,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public PlaylistsList getPlaylistsByPlaylist(String part, String playlistId, int maxResults, String pageToken) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(PlaylistsList.getPlaylistsByPlaylistUrl(DATA_API_KEY, part, playlistId, maxResults, pageToken)), PlaylistsList.class);
+		return gson.fromJson(getJson(PlaylistsList.getPlaylistsByPlaylistUrl(data_api_key, part, playlistId, maxResults, pageToken)), PlaylistsList.class);
 	}
 	
 	/**
@@ -625,7 +610,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public SearchList getSearch(String query, int maxResults, String pageToken, String order, String type) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(SearchList.getSearchUrl(DATA_API_KEY, SearchList.PART_SNIPPET, query.replace(" ", "%20"), maxResults, pageToken, order, type)), SearchList.class);
+		return gson.fromJson(getJson(SearchList.getSearchUrl(data_api_key, SearchList.PART_SNIPPET, query.replace(" ", "%20"), maxResults, pageToken, order, type)), SearchList.class);
 	}
 	/**
 	 * Search for everything on Youtube with several search constraints. 
@@ -641,7 +626,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public SearchList getSearch(String query, int maxResults, String pageToken, String order, String type, String publishedBefore, String publishedAfter) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(SearchList.getSearchUrl(DATA_API_KEY, SearchList.PART_SNIPPET, query.replace(" ", "%20"), maxResults, pageToken, order, type, publishedBefore, publishedAfter)), SearchList.class);
+		return gson.fromJson(getJson(SearchList.getSearchUrl(data_api_key, SearchList.PART_SNIPPET, query.replace(" ", "%20"), maxResults, pageToken, order, type, publishedBefore, publishedAfter)), SearchList.class);
 	}
 	/**
 	 * Return videos published with location information based on location and distance provided. 
@@ -657,7 +642,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public SearchList getSearchVideosAtLocation(String query, int maxResults, String pageToken, String order, String location, String locationRadius) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(SearchList.getSearchAtLocationUrl(DATA_API_KEY, SearchList.PART_SNIPPET, query.replace(" ", "%20"), maxResults, pageToken, order, SearchList.TYPE_VIDEO, location, locationRadius)), SearchList.class);
+		return gson.fromJson(getJson(SearchList.getSearchAtLocationUrl(data_api_key, SearchList.PART_SNIPPET, query.replace(" ", "%20"), maxResults, pageToken, order, SearchList.TYPE_VIDEO, location, locationRadius)), SearchList.class);
 	}
 	/**
 	 * Return videos published with location information based on location and distance provided. 
@@ -675,7 +660,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public SearchList getSearchVideosAtLocation(String query, int maxResults, String pageToken, String order, String location, String locationRadius, String publishedBefore, String publishedAfter) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(SearchList.getSearchAtLocationUrl(DATA_API_KEY, SearchList.PART_SNIPPET, query.replace(" ", "%20"), maxResults, pageToken, order, SearchList.TYPE_VIDEO, location, locationRadius, publishedBefore, publishedAfter)), SearchList.class);
+		return gson.fromJson(getJson(SearchList.getSearchAtLocationUrl(data_api_key, SearchList.PART_SNIPPET, query.replace(" ", "%20"), maxResults, pageToken, order, SearchList.TYPE_VIDEO, location, locationRadius, publishedBefore, publishedAfter)), SearchList.class);
 	}
 	
 	/**
@@ -691,7 +676,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public SubscriptionsList getSubscriptionsByChannel(String part, String channelId, String forChannelId, int maxResults, String order, String pageToken) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(SubscriptionsList.getSubscriptionsByChannelUrl(DATA_API_KEY, part, channelId, forChannelId, maxResults, order, pageToken)), SubscriptionsList.class);
+		return gson.fromJson(getJson(SubscriptionsList.getSubscriptionsByChannelUrl(data_api_key, part, channelId, forChannelId, maxResults, order, pageToken)), SubscriptionsList.class);
 	}
 	
 	/**
@@ -707,7 +692,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public SubscriptionsList getSubscriptionsByIds(String part, String ids, String forChannelId, int maxResults, String order, String pageToken) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(SubscriptionsList.getSubscriptionsByIdsUrl(DATA_API_KEY, part, ids, forChannelId, maxResults, order, pageToken)), SubscriptionsList.class);
+		return gson.fromJson(getJson(SubscriptionsList.getSubscriptionsByIdsUrl(data_api_key, part, ids, forChannelId, maxResults, order, pageToken)), SubscriptionsList.class);
 	}
 	
 	/**
@@ -717,7 +702,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public VideoAbuseReportReasonsList getVideoAbuseReportReasons() throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(VideoAbuseReportReasonsList.getVideoAbuseReportReasonsUrl(DATA_API_KEY, VideoAbuseReportReasonsList.PART_SNIPPET)), VideoAbuseReportReasonsList.class);
+		return gson.fromJson(getJson(VideoAbuseReportReasonsList.getVideoAbuseReportReasonsUrl(data_api_key, VideoAbuseReportReasonsList.PART_SNIPPET)), VideoAbuseReportReasonsList.class);
 	}
 	
 	/**
@@ -728,7 +713,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public VideoCategoriesList getVideoCategoriesByIds(String ids) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(VideoCategoriesList.getVideoCategoriesByIdsUrl(DATA_API_KEY, VideoCategoriesList.PART_SNIPPET, ids)), VideoCategoriesList.class);
+		return gson.fromJson(getJson(VideoCategoriesList.getVideoCategoriesByIdsUrl(data_api_key, VideoCategoriesList.PART_SNIPPET, ids)), VideoCategoriesList.class);
 	}
 	
 	/**
@@ -739,7 +724,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public VideoCategoriesList getVideoCategoriesByRegionCode(String regionCode) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(VideoCategoriesList.getVideoCategoriesByRegionCodeUrl(DATA_API_KEY, VideoCategoriesList.PART_SNIPPET, regionCode)), VideoCategoriesList.class);
+		return gson.fromJson(getJson(VideoCategoriesList.getVideoCategoriesByRegionCodeUrl(data_api_key, VideoCategoriesList.PART_SNIPPET, regionCode)), VideoCategoriesList.class);
 	}
 	
 	/**
@@ -753,7 +738,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public VideosList getVideosById(String part, String ids, int maxResults, String pageToken) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(VideosList.getVideosByIdsUrl(DATA_API_KEY, part, ids, maxResults, pageToken)), VideosList.class);
+		return gson.fromJson(getJson(VideosList.getVideosByIdsUrl(data_api_key, part, ids, maxResults, pageToken)), VideosList.class);
 	}
 	
 	/**
@@ -768,7 +753,7 @@ public class YoutubeData {
 	 * @throws IOException
 	 */
 	public VideosList getVideosByChart(String part, String regionCode, String videoCategoryId, int maxResults, String pageToken) throws JsonSyntaxException, IOException {
-		return gson.fromJson(getJson(VideosList.getVideosByChartUrl(DATA_API_KEY, part, VideosList.CHART_MOST_POPULAR, regionCode, videoCategoryId, maxResults, pageToken)), VideosList.class);
+		return gson.fromJson(getJson(VideosList.getVideosByChartUrl(data_api_key, part, VideosList.CHART_MOST_POPULAR, regionCode, videoCategoryId, maxResults, pageToken)), VideosList.class);
 	}
 	
 	private String getJson(String url) throws IOException {

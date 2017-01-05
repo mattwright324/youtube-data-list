@@ -22,7 +22,7 @@ public class ChannelsList extends ListResponse {
 	public String nextPageToken;
 	public String prevPageToken;
 	
-	public static String getChannelsByCategoryUrl(String apiKey, String part, String categoryId, int maxResults) {
+	private static String getChannelsByCategoryUrl(String apiKey, String part, String categoryId, int maxResults) {
 		return YoutubeData.BASE_API+"/channels?key="+apiKey+"&part="+part+"&categoryId="+categoryId+"&maxResults="+maxResults;
 	}
 	
@@ -30,7 +30,7 @@ public class ChannelsList extends ListResponse {
 		return getChannelsByCategoryUrl(apiKey, part, categoryId, maxResults)+"&pageToken="+pageToken;
 	}
 	
-	public static String getChannelsByUsernameUrl(String apiKey, String part, String forUsername, int maxResults) {
+	private static String getChannelsByUsernameUrl(String apiKey, String part, String forUsername, int maxResults) {
 		return YoutubeData.BASE_API+"/channels?key="+apiKey+"&part="+part+"&forUsername="+forUsername+"&maxResults="+maxResults;
 	}
 	
@@ -38,12 +38,16 @@ public class ChannelsList extends ListResponse {
 		return getChannelsByUsernameUrl(apiKey, part, forUsername, maxResults)+"&pageToken="+pageToken;
 	}
 	
-	public static String getChannelsByChannelIdUrl(String apiKey, String part, String id, int maxResults) {
+	private static String getChannelsByChannelIdUrl(String apiKey, String part, String id, int maxResults) {
 		return YoutubeData.BASE_API+"/channels?key="+apiKey+"&part="+part+"&id="+id+"&maxResults="+maxResults;
 	}
 	
 	public static String getChannelsByChannelIdUrl(String apiKey, String part, String id, int maxResults, String pageToken) {
 		return getChannelsByChannelIdUrl(apiKey, part, id, maxResults)+"&pageToken="+pageToken;
+	}
+	
+	public static String getChannelsByMineUrl(String apiKey, String accessToken, String part) {
+		return YoutubeData.BASE_API+"/channels?key="+apiKey+"&access_token="+accessToken+"&part="+part+"&mine=true";
 	}
 	
 	public class Item extends ListResponse.Item {
