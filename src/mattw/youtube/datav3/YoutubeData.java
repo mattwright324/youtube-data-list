@@ -1,6 +1,7 @@
 package mattw.youtube.datav3;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -761,16 +762,21 @@ public class YoutubeData {
 	}
 	
 	private String getJson(URL url) throws IOException {
-	    InputStream is = null;
-	    BufferedReader br;
-	    String line;
-	    String text = "";
-        is = url.openStream();
-        br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-        while ((line = br.readLine()) != null) {
-            text += line;
-        }
-	    return text;
+	    return new String(toByteArray(url.openStream()), "UTF-8");
 	}
+	
+	public static byte[] toByteArray(InputStream is) throws IOException {
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        try {
+            byte[] b = new byte[4096];
+            int n = 0;
+            while ((n = is.read(b)) != -1) {
+                output.write(b, 0, n);
+            }
+            return output.toByteArray();
+        } finally {
+            output.close();
+        }
+    }
 	
 }
