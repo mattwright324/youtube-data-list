@@ -1,11 +1,10 @@
 package mattw.youtube.datav3;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.lang.reflect.Modifier;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Date;
 
@@ -28,19 +27,18 @@ import mattw.youtube.datav3.list.*;
  * @author mattw
  *
  */
+@Deprecated
 public class YoutubeData {
 	
 	public String data_api_key, access_token;
 	public static final String BASE_API = "https://www.googleapis.com/youtube/v3";
 	public final Gson gson = new GsonBuilder()
-			.excludeFieldsWithModifiers(Modifier.PRIVATE, Modifier.FINAL, Modifier.STATIC, Modifier.ABSTRACT)
+			.excludeFieldsWithModifiers(Modifier.PRIVATE, Modifier.FINAL, Modifier.ABSTRACT)
 			.create();
 	
 	/**
 	 * This class requires a Youtube Data API key.
 	 * Don't have a key? Follow the <a href="https://developers.google.com/youtube/v3/getting-started">guide to getting started</a>.
-	 * 
-	 * @param data_api_key
 	 */
 	public YoutubeData(String data_key) {
 		data_api_key = data_key;
@@ -762,7 +760,9 @@ public class YoutubeData {
 	}
 	
 	private String getJson(URL url) throws IOException {
-	    return new String(toByteArray(url.openStream()), "UTF-8");
+		HttpURLConnection con = (HttpURLConnection) url.openConnection();
+		con.setRequestProperty("Referer", "github.com/mattwright324/youtube-data-list");
+	    return new String(toByteArray(con.getInputStream()), "UTF-8");
 	}
 	
 	public static byte[] toByteArray(InputStream is) throws IOException {
