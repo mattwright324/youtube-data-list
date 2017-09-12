@@ -1,6 +1,7 @@
 package mattw.youtube.datav3.resources;
 
 import mattw.youtube.datav3.YouTubeData3;
+import mattw.youtube.datav3.YouTubeErrorException;
 import mattw.youtube.datav3.YouTubeResource;
 
 import java.io.IOException;
@@ -19,7 +20,7 @@ public class VideoAbuseReportReasonsList extends YouTubeResource {
         super(data);
     }
 
-    public VideoAbuseReportReasonsList get(String part) throws IOException {
+    public VideoAbuseReportReasonsList get(String part) throws IOException, YouTubeErrorException {
         fields.put("part", part);
         return get();
     }

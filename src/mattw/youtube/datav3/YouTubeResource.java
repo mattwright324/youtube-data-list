@@ -47,8 +47,13 @@ public abstract class YouTubeResource {
                 .collect(Collectors.joining("&"));
     }
 
-    public <T extends YouTubeResource> T get() throws IOException {
-        return (T) data.gson().fromJson(getJson(data.BASE_API+dataPath+"?"+getRequestFields()), ((T) this).getClass());
+    public <T extends YouTubeResource> T get() throws IOException, YouTubeErrorException {
+        Response res = getJson(data.BASE_API+dataPath+"?"+getRequestFields());
+        if(res.error) {
+            throw data.gson().fromJson(res.jsonMessage, YouTubeErrorException.class);
+        } else {
+            return (T) data.gson().fromJson(res.jsonMessage, ((T) this).getClass());
+        }
     }
 
     public class PageInfo {
@@ -66,11 +71,21 @@ public abstract class YouTubeResource {
         public String getId() { return id; }
     }
 
-    private String getJson(String url) throws IOException {
+
+    public class Response {
+        public boolean error = false;
+        public String jsonMessage;
+        public Response(boolean error, String json) {
+            this.error = error;
+            this.jsonMessage = json;
+        }
+    }
+
+    private Response getJson(String url) throws IOException {
         return getJson(new URL(url));
     }
 
-    private String getJson(URL url) throws IOException {
+    private Response getJson(URL url) throws IOException {
         HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
         con.setRequestProperty("Accept", "application/json");
         con.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.79 Safari/537.36");
@@ -84,7 +99,7 @@ public abstract class YouTubeResource {
             error = true;
             is = con.getErrorStream();
         }
-        return new String(toByteArray(error, is), "UTF-8");
+        return new Response(error, new String(toByteArray(error, is), "UTF-8"));
     }
 
     public static byte[] toByteArray(boolean error, InputStream is) throws IOException {

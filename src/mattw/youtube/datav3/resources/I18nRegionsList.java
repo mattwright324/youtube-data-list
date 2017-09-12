@@ -1,7 +1,10 @@
 package mattw.youtube.datav3.resources;
 
 import mattw.youtube.datav3.YouTubeData3;
+import mattw.youtube.datav3.YouTubeErrorException;
 import mattw.youtube.datav3.YouTubeResource;
+
+import java.io.IOException;
 
 public class I18nRegionsList extends YouTubeResource {
 
@@ -18,6 +21,11 @@ public class I18nRegionsList extends YouTubeResource {
     }
 
     public boolean hasItems() { return items != null; }
+
+    public I18nRegionsList get(String part) throws IOException, YouTubeErrorException {
+        fields.put("part", part);
+        return get();
+    }
 
     public class Item extends YouTubeResource.Item {
 

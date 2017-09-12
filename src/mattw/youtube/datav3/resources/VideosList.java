@@ -2,6 +2,7 @@ package mattw.youtube.datav3.resources;
 
 import mattw.youtube.datav3.Thumbs;
 import mattw.youtube.datav3.YouTubeData3;
+import mattw.youtube.datav3.YouTubeErrorException;
 import mattw.youtube.datav3.YouTubeResource;
 
 import java.io.IOException;
@@ -42,14 +43,14 @@ public class VideosList extends YouTubeResource {
         return this;
     }
 
-    public VideosList getByIds(String part, String ids, String pageToken) throws IOException {
+    public VideosList getByIds(String part, String ids, String pageToken) throws IOException, YouTubeErrorException {
         fields.put("part", part);
         fields.put("id", ids);
         fields.put("pageToken", pageToken);
         return get();
     }
 
-    public VideosList getByChart(String part, String chart, String regionCode, String videoCategoryId, String pageToken) throws IOException {
+    public VideosList getByChart(String part, String chart, String regionCode, String videoCategoryId, String pageToken) throws IOException, YouTubeErrorException {
         fields.put("part", part);
         fields.put("chart", chart);
         fields.put("regionCode", regionCode);

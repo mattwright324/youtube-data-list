@@ -2,6 +2,7 @@ package mattw.youtube.datav3.resources;
 
 import mattw.youtube.datav3.Thumbs;
 import mattw.youtube.datav3.YouTubeData3;
+import mattw.youtube.datav3.YouTubeErrorException;
 import mattw.youtube.datav3.YouTubeResource;
 
 import java.io.IOException;
@@ -41,28 +42,28 @@ public class ChannelsList extends YouTubeResource {
         return this;
     }
 
-    public ChannelsList getByCategory(String part, String categoryId, String pageToken) throws IOException {
+    public ChannelsList getByCategory(String part, String categoryId, String pageToken) throws IOException, YouTubeErrorException {
         fields.put("part", part);
         fields.put("categoryId", categoryId);
         fields.put("pageToken", pageToken);
         return get();
     }
 
-    public ChannelsList getByUsername(String part, String forUsername, String pageToken) throws IOException {
+    public ChannelsList getByUsername(String part, String forUsername, String pageToken) throws IOException, YouTubeErrorException {
         fields.put("part", part);
         fields.put("forUsername", forUsername);
         fields.put("pageToken", pageToken);
         return get();
     }
 
-    public ChannelsList getByChannel(String part, String channelId, String pageToken) throws IOException {
+    public ChannelsList getByChannel(String part, String channelId, String pageToken) throws IOException, YouTubeErrorException {
         fields.put("part", part);
         fields.put("id", channelId);
         fields.put("pageToken", pageToken);
         return get();
     }
 
-    public ChannelsList getMine(String part, String pageToken) throws IOException {
+    public ChannelsList getMine(String part, String pageToken) throws IOException, YouTubeErrorException {
         fields.put("mine", "true");
         fields.put("pageToken", pageToken);
         return get();

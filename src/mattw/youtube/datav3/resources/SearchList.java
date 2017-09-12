@@ -2,6 +2,7 @@ package mattw.youtube.datav3.resources;
 
 import mattw.youtube.datav3.Thumbs;
 import mattw.youtube.datav3.YouTubeData3;
+import mattw.youtube.datav3.YouTubeErrorException;
 import mattw.youtube.datav3.YouTubeResource;
 
 import java.io.IOException;
@@ -62,7 +63,7 @@ public class SearchList extends YouTubeResource {
         return this;
     }
 
-    public SearchList get(String part, String q, String type, String pageToken) throws IOException {
+    public SearchList get(String part, String q, String type, String pageToken) throws IOException, YouTubeErrorException {
         fields.put("part", part);
         fields.put("q", q);
         fields.put("type", type);
@@ -70,7 +71,7 @@ public class SearchList extends YouTubeResource {
         return get();
     }
 
-    public SearchList getByLocation(String part, String q, String pageToken, String location, String locationRadius) throws IOException {
+    public SearchList getByLocation(String part, String q, String pageToken, String location, String locationRadius) throws IOException, YouTubeErrorException {
         fields.put("part", part);
         fields.put("q", q);
         fields.put("type", TYPE_VIDEO);

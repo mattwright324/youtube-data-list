@@ -1,6 +1,7 @@
 package mattw.youtube.datav3.resources;
 
 import mattw.youtube.datav3.YouTubeData3;
+import mattw.youtube.datav3.YouTubeErrorException;
 import mattw.youtube.datav3.YouTubeResource;
 
 import java.io.IOException;
@@ -23,13 +24,13 @@ public class ChannelSectionsList extends YouTubeResource {
 
     public boolean hasItems() { return items != null; }
 
-    public ChannelSectionsList getByChannel(String part, String channelId) throws IOException {
+    public ChannelSectionsList getByChannel(String part, String channelId) throws IOException, YouTubeErrorException {
         fields.put("part", part);
         fields.put("channelId", channelId);
         return get();
     }
 
-    public ChannelSectionsList getBySection(String part, String sectionId) throws IOException {
+    public ChannelSectionsList getBySection(String part, String sectionId) throws IOException, YouTubeErrorException {
         fields.put("part", part);
         fields.put("sectionId", sectionId);
         return get();

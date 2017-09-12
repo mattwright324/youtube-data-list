@@ -1,6 +1,7 @@
 package mattw.youtube.datav3.resources;
 
 import mattw.youtube.datav3.YouTubeData3;
+import mattw.youtube.datav3.YouTubeErrorException;
 import mattw.youtube.datav3.YouTubeResource;
 
 import java.io.IOException;
@@ -33,28 +34,23 @@ public class CommentsList extends YouTubeResource {
         return this;
     }
 
-    public CommentsList get(String part, String id, String pageToken) throws IOException {
+    public CommentsList textFormat(String textFormat) {
+        fields.put("textFormat", textFormat);
+        return this;
+    }
+
+    public CommentsList get(String part, String id, String pageToken) throws IOException, YouTubeErrorException {
         fields.put("part", part);
         fields.put("id", id);
         fields.put("pageToken", pageToken);
         return get();
     }
 
-    public CommentsList get(String part, String id, String pageToken, String textFormat) throws IOException {
-        fields.put("textFormat", textFormat);
-        return get(part, id, pageToken);
-    }
-
-    public CommentsList getByParentId(String part, String parentId, String pageToken) throws IOException {
+    public CommentsList getByParentId(String part, String parentId, String pageToken) throws IOException, YouTubeErrorException {
         fields.put("part", part);
         fields.put("parentId", parentId);
         fields.put("pageToken", pageToken);
         return get();
-    }
-
-    public CommentsList getByParentId(String part, String parentId, String pageToken, String textFormat) throws IOException {
-        fields.put("textFormat", textFormat);
-        return get(part, parentId, pageToken);
     }
 
     public class Item extends YouTubeResource.Item {

@@ -1,6 +1,7 @@
 package mattw.youtube.datav3.resources;
 
 import mattw.youtube.datav3.YouTubeData3;
+import mattw.youtube.datav3.YouTubeErrorException;
 import mattw.youtube.datav3.YouTubeResource;
 
 import java.io.IOException;
@@ -22,17 +23,17 @@ public class CaptionsList extends YouTubeResource {
 
     public boolean hasItems() { return items != null; }
 
-    public CaptionsList get(String videoId) throws IOException {
+    public CaptionsList get(String videoId) throws IOException, YouTubeErrorException {
         fields.put("videoId", videoId);
         return get();
     }
 
-    public CaptionsList get(String part, String videoId) throws IOException {
+    public CaptionsList get(String part, String videoId) throws IOException, YouTubeErrorException {
         fields.put("part", part);
         return get(videoId);
     }
 
-    public CaptionsList get(String part, String videoId, String ids) throws IOException {
+    public CaptionsList get(String part, String videoId, String ids) throws IOException, YouTubeErrorException {
         fields.put("id", ids);
         return get(part, videoId);
     }

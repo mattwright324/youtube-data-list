@@ -2,6 +2,7 @@ package mattw.youtube.datav3.resources;
 
 import mattw.youtube.datav3.Thumbs;
 import mattw.youtube.datav3.YouTubeData3;
+import mattw.youtube.datav3.YouTubeErrorException;
 import mattw.youtube.datav3.YouTubeResource;
 
 import java.io.IOException;
@@ -33,13 +34,13 @@ public class ActivitiesList extends YouTubeResource {
         return this;
     }
 
-    public ActivitiesList get(String channelId, String pageToken) throws IOException {
+    public ActivitiesList get(String channelId, String pageToken) throws IOException, YouTubeErrorException {
         fields.put("channelId", channelId);
         fields.put("pageToken", pageToken);
         return get();
     }
 
-    public ActivitiesList get(String part, String channelId, String pageToken) throws IOException {
+    public ActivitiesList get(String part, String channelId, String pageToken) throws IOException, YouTubeErrorException {
         fields.put("part", part);
         return get(channelId, pageToken);
     }

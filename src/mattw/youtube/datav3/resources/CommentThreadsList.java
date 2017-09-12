@@ -1,6 +1,7 @@
 package mattw.youtube.datav3.resources;
 
 import mattw.youtube.datav3.YouTubeData3;
+import mattw.youtube.datav3.YouTubeErrorException;
 import mattw.youtube.datav3.YouTubeResource;
 
 import java.io.IOException;
@@ -47,21 +48,21 @@ public class CommentThreadsList extends YouTubeResource {
         return this;
     }
 
-    public CommentThreadsList getThreadsRelatedToChannel(String part, String channelId, String pageToken) throws IOException {
+    public CommentThreadsList getThreadsRelatedToChannel(String part, String channelId, String pageToken) throws IOException, YouTubeErrorException {
         fields.put("part", part);
         fields.put("allThreadsRelatedToChannelId", channelId);
         fields.put("pageToken", pageToken);
         return get();
     }
 
-    public CommentThreadsList getThreadsByChannel(String part, String channelId, String pageToken) throws IOException {
+    public CommentThreadsList getThreadsByChannel(String part, String channelId, String pageToken) throws IOException, YouTubeErrorException {
         fields.put("part", part);
         fields.put("channelId", channelId);
         fields.put("pageToken", pageToken);
         return get();
     }
 
-    public CommentThreadsList getThreadsByVideo(String part, String videoId, String pageToken) throws IOException {
+    public CommentThreadsList getThreadsByVideo(String part, String videoId, String pageToken) throws IOException, YouTubeErrorException {
         fields.put("part", part);
         fields.put("videoId", videoId);
         fields.put("pageToken", pageToken);
