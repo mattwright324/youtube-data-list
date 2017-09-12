@@ -99,18 +99,15 @@ public abstract class YouTubeResource {
             error = true;
             is = con.getErrorStream();
         }
-        return new Response(error, new String(toByteArray(error, is), "UTF-8"));
+        return new Response(error, new String(toByteArray(is), "UTF-8"));
     }
 
-    public static byte[] toByteArray(boolean error, InputStream is) throws IOException {
+    public static byte[] toByteArray(InputStream is) throws IOException {
         try (ByteArrayOutputStream output = new ByteArrayOutputStream()) {
             byte[] b = new byte[4096];
             int n;
             while ((n = is.read(b)) != -1) {
                 output.write(b, 0, n);
-            }
-            if (error) {
-                System.err.println(new String(output.toByteArray(), "UTF-8"));
             }
             return output.toByteArray();
         }
