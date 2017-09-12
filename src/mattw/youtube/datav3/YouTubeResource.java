@@ -88,19 +88,16 @@ public abstract class YouTubeResource {
     }
 
     public static byte[] toByteArray(boolean error, InputStream is) throws IOException {
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
-        try {
+        try (ByteArrayOutputStream output = new ByteArrayOutputStream()) {
             byte[] b = new byte[4096];
             int n;
             while ((n = is.read(b)) != -1) {
                 output.write(b, 0, n);
             }
-            if(error) {
+            if (error) {
                 System.err.println(new String(output.toByteArray(), "UTF-8"));
             }
             return output.toByteArray();
-        } finally {
-            output.close();
         }
     }
 }

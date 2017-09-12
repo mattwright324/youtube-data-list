@@ -44,4 +44,11 @@ public class YouTubeData3 {
     public GuideCategoriesList guideCategoriesList() { return new GuideCategoriesList(this); }
     public I18nLanguagesList i18nLanguagesList() { return new I18nLanguagesList(this); }
     public I18nRegionsList i18nRegionsList() { return new I18nRegionsList(this); }
+    public PlaylistItemsList playlistItemsList() { return new PlaylistItemsList(this); }
+    public PlaylistsList playlistsList() { return new PlaylistsList(this); }
+    public SearchList searchList() { return new SearchList(this); }
+    public SubscriptionsList subscriptionsList() { return new SubscriptionsList(this); }
+    public VideoAbuseReportReasonsList videoAbuseReportReasonsList() { return new VideoAbuseReportReasonsList(this); }
+    public VideoCategoriesList videoCategoriesList() { return new VideoCategoriesList(this); }
+    public VideosList videosList() { return new VideosList(this); }
 }

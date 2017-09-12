@@ -1,7 +1,6 @@
 package mattw.youtube.datav3;
 
 import com.google.gson.annotations.SerializedName;
-import mattw.youtube.datav3.list.Thumbnails;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

@@ -15,9 +15,13 @@ public class ChannelSectionsList extends YouTubeResource {
         this.dataPath = "channelSections";
     }
 
+    public Item[] items;
+
     public ChannelSectionsList(YouTubeData3 data) {
         super(data);
     }
+
+    public boolean hasItems() { return items != null; }
 
     public ChannelSectionsList getByChannel(String part, String channelId) throws IOException {
         fields.put("part", part);
