@@ -57,7 +57,7 @@ public class ChannelsList extends YouTubeResource {
 
     public ChannelsList getByChannel(String part, String channelId, String pageToken) throws IOException {
         fields.put("part", part);
-        fields.put("channelId", channelId);
+        fields.put("id", channelId);
         fields.put("pageToken", pageToken);
         return get();
     }
