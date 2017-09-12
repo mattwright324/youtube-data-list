@@ -7,13 +7,13 @@ However, this library does not implement parameters and options that require aut
 
 A couple code examples:
 
-    YoutubeData data = new YoutubeData("your_Data_Api_Key_Here");
+    YouTubeData3 data = new YouTubeData3("youtubeDataApiKeyHere");
     
     # Comments posted on a channel:
     CommentThreadsList ctl = null;
     String pageToken = "";
     do {
-        ctl = data.getCommentThreadsByChannelId(CommentThreadsList.PART_SNIPPET, "UCUcyEsEjhPEDf69RRVhRh4A", CommentThreadsList.MAX_REPLIES, pageToken);
+        ctl = data.commentThreads().getByChannel(CommentThreadsList.PART_SNIPPET, "UCUcyEsEjhPEDf69RRVhRh4A", pageToken);
         pageToken = ctl.nextPageToken;
         for(CommentThreadsList.Item item : ctl.items) {
             if(item.hasSnippet()) {
@@ -29,7 +29,9 @@ A couple code examples:
     String pageToken = "";
     do {
         # Location takes latitude,longitude and a radius using m, km, ft, or mi.
-        sl = data.getSearchVideosAtLocation("", SearchList.MAX_RESULTS, "", SearchList.ORDER_DATE, "40.2822047,-76.9154449", "1mi");
+        sl = data.searchList()
+            .order(SearchList.ORDER_DATE)
+            .getByLocation(SearchList.PART_SNIPPET, "", pageToken, "40.2822047,-76.9154449", "1mi");
         pageToken = sl.nextPageToken;
         for(SearchList.Item item : sl.items) {
             if(item.hasSnippet()) {
