@@ -45,7 +45,6 @@ public class CommentsList extends YouTubeResource {
         return get(part, id, pageToken);
     }
 
-    /* Note: parentId calls do not work but may be supported in the future
     public CommentsList getByParentId(String part, String parentId, String pageToken) throws IOException {
         fields.put("part", part);
         fields.put("parentId", parentId);
@@ -57,7 +56,6 @@ public class CommentsList extends YouTubeResource {
         fields.put("textFormat", textFormat);
         return get(part, parentId, pageToken);
     }
-    */
 
     public class Item extends YouTubeResource.Item {
 
