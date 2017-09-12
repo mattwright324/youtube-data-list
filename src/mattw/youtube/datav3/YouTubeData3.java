@@ -2,7 +2,7 @@ package mattw.youtube.datav3;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import mattw.youtube.datav3.resources.ActivitiesList;
+import mattw.youtube.datav3.resources.*;
 
 import java.lang.reflect.Modifier;
 
@@ -36,5 +36,12 @@ public class YouTubeData3 {
     }
 
     public ActivitiesList activitiesList() { return new ActivitiesList(this); }
-
+    public CaptionsList captionsList() { return new CaptionsList(this); }
+    public ChannelSectionsList channelSectionsList() { return new ChannelSectionsList(this); }
+    public ChannelsList channelsList() { return new ChannelsList(this); }
+    public CommentsList commentsList() { return new CommentsList(this); }
+    public CommentThreadsList commentThreadsList() { return new CommentThreadsList(this); }
+    public GuideCategoriesList guideCategoriesList() { return new GuideCategoriesList(this); }
+    public I18nLanguagesList i18nLanguagesList() { return new I18nLanguagesList(this); }
+    public I18nRegionsList i18nRegionsList() { return new I18nRegionsList(this); }
 }
