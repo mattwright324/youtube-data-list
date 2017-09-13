@@ -88,8 +88,9 @@ public abstract class YouTubeResource {
     private Response getJson(URL url) throws IOException {
         HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
         con.setRequestProperty("Accept", "application/json");
-        con.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.79 Safari/537.36");
-        con.setRequestProperty("Referer", "https://github.com/mattwright324/youtube-data-list");
+        for(String key : data.getRequestHeaders().keySet()) {
+            con.setRequestProperty(key, data.getRequestHeaders().get(key));
+        }
         con.connect();
         InputStream is;
         boolean error = false;

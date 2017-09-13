@@ -5,12 +5,15 @@ import com.google.gson.GsonBuilder;
 import mattw.youtube.datav3.resources.*;
 
 import java.lang.reflect.Modifier;
+import java.util.HashMap;
+import java.util.Map;
 
 public class YouTubeData3 {
 
     protected final String BASE_API = "https://www.googleapis.com/youtube/v3/";
     private String dataApiKey;
     private String profileAccessToken;
+    private Map<String,String> requestHeaders = new HashMap<>();
 
     private Gson gson = new GsonBuilder()
             .excludeFieldsWithModifiers(Modifier.PROTECTED, Modifier.FINAL, Modifier.STATIC, Modifier.ABSTRACT)
@@ -24,6 +27,12 @@ public class YouTubeData3 {
 
     public String getDataApiKey() { return dataApiKey; }
     public String getProfileAccessToken() { return profileAccessToken; }
+
+    public void setRequestHeader(String name, String value) {
+        requestHeaders.put(name, value);
+    }
+
+    public Map<String,String> getRequestHeaders() { return requestHeaders; }
 
     protected Gson gson() { return gson; }
 
