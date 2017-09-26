@@ -14,6 +14,7 @@ public class YouTubeData3 {
     private String dataApiKey;
     private String profileAccessToken;
     private Map<String,String> requestHeaders = new HashMap<>();
+    private boolean useHttps = true;
 
     private Gson gson = new GsonBuilder()
             .excludeFieldsWithModifiers(Modifier.PROTECTED, Modifier.FINAL, Modifier.STATIC, Modifier.ABSTRACT)
@@ -27,10 +28,10 @@ public class YouTubeData3 {
 
     public String getDataApiKey() { return dataApiKey; }
     public String getProfileAccessToken() { return profileAccessToken; }
+    public boolean getUseHttps() { return useHttps; }
 
-    public void setRequestHeader(String name, String value) {
-        requestHeaders.put(name, value);
-    }
+    public void setRequestHeader(String name, String value) { requestHeaders.put(name, value); }
+    public void setUseHttps(boolean https) { this.useHttps = https; }
 
     public Map<String,String> getRequestHeaders() { return requestHeaders; }
 

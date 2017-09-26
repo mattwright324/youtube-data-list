@@ -4,6 +4,7 @@ import javax.net.ssl.HttpsURLConnection;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
@@ -50,7 +51,9 @@ public abstract class YouTubeResource {
     public <T extends YouTubeResource> T get() throws IOException, YouTubeErrorException {
         Response res = getJson(data.BASE_API+dataPath+"?"+getRequestFields());
         if(res.error) {
-            throw data.gson().fromJson(res.jsonMessage, YouTubeErrorException.class);
+            YouTubeErrorException yee= data.gson().fromJson(res.jsonMessage, YouTubeErrorException.class);
+            yee.setRequestUrl(res.requestUrl);
+            throw yee;
         } else {
             return (T) data.gson().fromJson(res.jsonMessage, ((T) this).getClass());
         }
@@ -75,8 +78,10 @@ public abstract class YouTubeResource {
     public class Response {
         public boolean error = false;
         public String jsonMessage;
-        public Response(boolean error, String json) {
+        public String requestUrl;
+        public Response(boolean error, String url, String json) {
             this.error = error;
+            this.requestUrl = url;
             this.jsonMessage = json;
         }
     }
@@ -86,21 +91,39 @@ public abstract class YouTubeResource {
     }
 
     private Response getJson(URL url) throws IOException {
-        HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
-        con.setRequestProperty("Accept", "application/json");
-        for(String key : data.getRequestHeaders().keySet()) {
-            con.setRequestProperty(key, data.getRequestHeaders().get(key));
-        }
-        con.connect();
-        InputStream is;
-        boolean error = false;
-        if (con.getResponseCode() < HttpsURLConnection.HTTP_BAD_REQUEST) {
-            is = con.getInputStream();
+        if(data.getUseHttps()) {
+            HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
+            con.setRequestProperty("Accept", "application/json");
+            for(String key : data.getRequestHeaders().keySet()) {
+                con.setRequestProperty(key, data.getRequestHeaders().get(key));
+            }
+            con.connect();
+            InputStream is;
+            boolean error = false;
+            if (con.getResponseCode() < HttpsURLConnection.HTTP_BAD_REQUEST) {
+                is = con.getInputStream();
+            } else {
+                error = true;
+                is = con.getErrorStream();
+            }
+            return new Response(error, url.toString(), new String(toByteArray(is), "UTF-8"));
         } else {
-            error = true;
-            is = con.getErrorStream();
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestProperty("Accept", "application/json");
+            for(String key : data.getRequestHeaders().keySet()) {
+                con.setRequestProperty(key, data.getRequestHeaders().get(key));
+            }
+            con.connect();
+            InputStream is;
+            boolean error = false;
+            if (con.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
+                is = con.getInputStream();
+            } else {
+                error = true;
+                is = con.getErrorStream();
+            }
+            return new Response(error, url.toString(), new String(toByteArray(is), "UTF-8"));
         }
-        return new Response(error, new String(toByteArray(is), "UTF-8"));
     }
 
     public static byte[] toByteArray(InputStream is) throws IOException {

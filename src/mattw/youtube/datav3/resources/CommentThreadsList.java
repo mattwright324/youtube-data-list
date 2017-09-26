@@ -28,7 +28,7 @@ public class CommentThreadsList extends YouTubeResource {
     public CommentThreadsList(YouTubeData3 data) {
         super(data);
         fields.put("maxResults", 100);
-        fields.put("order", ORDER_RELEVANCE);
+        fields.put("order", ORDER_TIME);
     }
 
     public boolean hasItems() { return items != null; }
