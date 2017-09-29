@@ -64,6 +64,7 @@ public class ChannelsList extends YouTubeResource {
     }
 
     public ChannelsList getMine(String part, String pageToken) throws IOException, YouTubeErrorException {
+        fields.put("part", part);
         fields.put("mine", "true");
         fields.put("pageToken", pageToken);
         return get();
