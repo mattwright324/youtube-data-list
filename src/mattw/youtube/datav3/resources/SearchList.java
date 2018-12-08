@@ -1,17 +1,18 @@
 package mattw.youtube.datav3.resources;
 
-import mattw.youtube.datav3.Thumbs;
-import mattw.youtube.datav3.YouTubeData3;
-import mattw.youtube.datav3.YouTubeErrorException;
-import mattw.youtube.datav3.YouTubeResource;
+import mattw.youtube.datav3.*;
 
 import java.io.IOException;
 import java.util.Date;
 
+/**
+ * @version 2018-12-08
+ * @author mattwright324
+ */
+@AcceptsParts(values = {Parts.ID, Parts.SNIPPET})
 public class SearchList extends YouTubeResource {
 
     public final static int MAX_RESULTS = 50;
-    public final static String PART_SNIPPET = "snippet"; // cost: 2
 
     public final static String TYPE_ALL = "";
     public final static String TYPE_CHANNEL = "channel";

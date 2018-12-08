@@ -1,14 +1,15 @@
 package mattw.youtube.datav3.resources;
 
-import mattw.youtube.datav3.YouTubeData3;
-import mattw.youtube.datav3.YouTubeErrorException;
-import mattw.youtube.datav3.YouTubeResource;
+import mattw.youtube.datav3.*;
 
 import java.io.IOException;
 
+/**
+ * @version 2018-12-08
+ * @author mattwright324
+ */
+@AcceptsParts(values = {Parts.ID, Parts.SNIPPET})
 public class GuideCategoriesList extends YouTubeResource {
-
-    public final static String PART_SNIPPET = "snippet"; // cost: 2
 
     {
         this.dataPath = "guideCategories";

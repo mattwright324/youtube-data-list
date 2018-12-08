@@ -1,27 +1,31 @@
 package mattw.youtube.datav3.resources;
 
-import mattw.youtube.datav3.Thumbs;
-import mattw.youtube.datav3.YouTubeData3;
-import mattw.youtube.datav3.YouTubeErrorException;
-import mattw.youtube.datav3.YouTubeResource;
+import mattw.youtube.datav3.*;
 
 import java.io.IOException;
 import java.util.Date;
 
+/**
+ * @version 2018-12-08
+ * @author mattwright324
+ */
+@AcceptsParts(values = {
+        Parts.ID,
+        Parts.CONTENT_DETAILS,
+        Parts.FILE_DETAILS,
+        Parts.LIVE_STREAMING_DETAILS,
+        Parts.PLAYER,
+        Parts.PROCESSING_DETAILS,
+        Parts.RECORDING_DETAILS,
+        Parts.SNIPPET,
+        Parts.STATISTICS,
+        Parts.STATUS,
+        Parts.SUGGESTIONS,
+        Parts.TOPIC_DETAILS
+})
 public class VideosList extends YouTubeResource {
 
     public final static int MAX_RESULTS = 50;
-    public final static String PART_CONTENT_DETAILS = "contentDetails"; // cost: 2
-    public final static String PART_FILE_DETAILS = "fileDetails"; // cost: 1
-    public final static String PART_LIVE_STREAMING_DETAILS = "liveStreamingDetails"; // cost: 2
-    public final static String PART_PLAYER = "player"; // cost: 0
-    public final static String PART_PROCESSING_DETAILS = "processingDetails"; // cost: 1
-    public final static String PART_RECORDING_DETAILS = "recordingDetails"; // cost: 2
-    public final static String PART_SNIPPET = "snippet"; // cost: 2
-    public final static String PART_STATISTICS = "statistics"; // cost: 2
-    public final static String PART_STATUS = "status"; // cost: 2
-    public final static String PART_SUGGESTIONS = "suggestions"; // cost: 1
-    public final static String PART_TOPIC_DETAILS = "topicDetails"; // cost 2
 
     public final static String CHART_MOST_POPULAR = "mostPopular";
 

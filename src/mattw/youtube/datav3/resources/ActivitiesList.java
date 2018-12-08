@@ -1,18 +1,18 @@
 package mattw.youtube.datav3.resources;
 
-import mattw.youtube.datav3.Thumbs;
-import mattw.youtube.datav3.YouTubeData3;
-import mattw.youtube.datav3.YouTubeErrorException;
-import mattw.youtube.datav3.YouTubeResource;
+import mattw.youtube.datav3.*;
 
 import java.io.IOException;
 import java.util.Date;
 
+/**
+ * @version 2018-12-08
+ * @author mattwright324
+ */
+@AcceptsParts(values = {Parts.ID, Parts.SNIPPET, Parts.CONTENT_DETAILS})
 public class ActivitiesList extends YouTubeResource {
 
     public static final int MAX_RESULTS = 50;
-    public static final String PART_SNIPPET = "snippet"; // cost: 2
-    public static final String PART_CONTENT_DETAILS = "contentDetails"; // cost: 2
 
     {
         this.dataPath = "activities";

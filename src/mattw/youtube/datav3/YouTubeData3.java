@@ -8,6 +8,10 @@ import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @version 2018-12-08
+ * @author mattwright324
+ */
 public class YouTubeData3 {
 
     protected final String BASE_API = "https://www.googleapis.com/youtube/v3/";

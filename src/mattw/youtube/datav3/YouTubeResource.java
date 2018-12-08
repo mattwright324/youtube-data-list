@@ -4,25 +4,26 @@ import javax.net.ssl.HttpsURLConnection;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.SimpleDateFormat;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public abstract class YouTubeResource {
+/**
+ * @version 2018-12-08
+ * @author mattwright324
+ */
+public abstract class YouTubeResource implements Serializable {
 
-    protected SimpleDateFormat SDF = new SimpleDateFormat("YYYY-MM-DD hh:mm:ss:sZ");
+    protected transient String dataPath;
+    protected transient YouTubeData3 data;
+    protected transient Map<String,Object> fields = new HashMap<>();
 
-    public static final String PART_ID = "id"; // No cost.
-
-    protected String dataPath;
-    protected YouTubeData3 data;
-    public Map<String,Object> fields = new HashMap<>();
-    public String kind;
-    public String etag;
-    public PageInfo pageInfo;
+    String kind, etag;
+    PageInfo pageInfo;
 
     public String getKind() { return kind; }
     public String getEtag() { return etag; }
@@ -36,7 +37,7 @@ public abstract class YouTubeResource {
 
     protected void setYouTubeData(YouTubeData3 data) {
         this.data = data;
-        fields.put("part", PART_ID);
+        fields.put("part", Parts.ID.getId());
     }
 
     protected String getRequestFields() {
@@ -49,13 +50,13 @@ public abstract class YouTubeResource {
     }
 
     public <T extends YouTubeResource> T get() throws IOException, YouTubeErrorException {
-        Response res = getJson(data.BASE_API+dataPath+"?"+getRequestFields());
-        if(res.error) {
-            YouTubeErrorException yee= data.gson().fromJson(res.jsonMessage, YouTubeErrorException.class);
-            yee.setRequestUrl(res.requestUrl);
+        Response res = getJsonResponse(data.BASE_API+dataPath+"?"+getRequestFields());
+        if(res.isError()) {
+            YouTubeErrorException yee= data.gson().fromJson(res.getJsonMessage(), YouTubeErrorException.class);
+            yee.setRequestUrl(res.getRequestUrl());
             throw yee;
         } else {
-            return (T) data.gson().fromJson(res.jsonMessage, ((T) this).getClass());
+            return (T) data.gson().fromJson(res.getJsonMessage(), this.getClass());
         }
     }
 
@@ -74,59 +75,38 @@ public abstract class YouTubeResource {
         public String getId() { return id; }
     }
 
+    private Response getJsonResponse(String url) throws IOException {
+        return getJsonResponse(new URL(url));
+    }
 
-    public class Response {
-        public boolean error = false;
-        public String jsonMessage;
-        public String requestUrl;
-        public Response(boolean error, String url, String json) {
-            this.error = error;
-            this.requestUrl = url;
-            this.jsonMessage = json;
+    private Response getJsonResponse(URL url) throws IOException {
+        HttpURLConnection urlConnection = data.getUseHttps() ?
+                (HttpsURLConnection) url.openConnection() :
+                (HttpURLConnection) url.openConnection();
+        try {
+            urlConnection.setRequestProperty("Accept", "application/json");
+            for(String key : data.getRequestHeaders().keySet()) {
+                urlConnection.setRequestProperty(key, data.getRequestHeaders().get(key));
+            }
+            urlConnection.connect();
+
+            int code = urlConnection.getResponseCode();
+            boolean errorStream = (code >= 200 && code < 300);
+            try(InputStream inputStream =  errorStream ? urlConnection.getInputStream() : urlConnection.getErrorStream()) {
+                String response = new String(toByteArray(inputStream), StandardCharsets.UTF_8);
+
+                return new Response.Builder()
+                        .error(errorStream)
+                        .jsonMessage(response)
+                        .requestUrl(url.toString())
+                        .build();
+            }
+        } finally {
+            urlConnection.disconnect();
         }
     }
 
-    private Response getJson(String url) throws IOException {
-        return getJson(new URL(url));
-    }
-
-    private Response getJson(URL url) throws IOException {
-        if(data.getUseHttps()) {
-            HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
-            con.setRequestProperty("Accept", "application/json");
-            for(String key : data.getRequestHeaders().keySet()) {
-                con.setRequestProperty(key, data.getRequestHeaders().get(key));
-            }
-            con.connect();
-            InputStream is;
-            boolean error = false;
-            if (con.getResponseCode() < HttpsURLConnection.HTTP_BAD_REQUEST) {
-                is = con.getInputStream();
-            } else {
-                error = true;
-                is = con.getErrorStream();
-            }
-            return new Response(error, url.toString(), new String(toByteArray(is), "UTF-8"));
-        } else {
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestProperty("Accept", "application/json");
-            for(String key : data.getRequestHeaders().keySet()) {
-                con.setRequestProperty(key, data.getRequestHeaders().get(key));
-            }
-            con.connect();
-            InputStream is;
-            boolean error = false;
-            if (con.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
-                is = con.getInputStream();
-            } else {
-                error = true;
-                is = con.getErrorStream();
-            }
-            return new Response(error, url.toString(), new String(toByteArray(is), "UTF-8"));
-        }
-    }
-
-    public static byte[] toByteArray(InputStream is) throws IOException {
+    private static byte[] toByteArray(InputStream is) throws IOException {
         try (ByteArrayOutputStream output = new ByteArrayOutputStream()) {
             byte[] b = new byte[4096];
             int n;

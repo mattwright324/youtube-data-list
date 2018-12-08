@@ -1,16 +1,17 @@
 package mattw.youtube.datav3.resources;
 
-import mattw.youtube.datav3.YouTubeData3;
-import mattw.youtube.datav3.YouTubeErrorException;
-import mattw.youtube.datav3.YouTubeResource;
+import mattw.youtube.datav3.*;
 
 import java.io.IOException;
 
+/**
+ * @version 2018-12-08
+ * @author mattwright324
+ */
+@AcceptsParts(values = {Parts.ID, Parts.SNIPPET, Parts.REPLIES})
 public class CommentThreadsList extends YouTubeResource {
 
     public final static int MAX_RESULTS = 100;
-    public final static String PART_REPLIES = "replies"; // cost: 2
-    public final static String PART_SNIPPET = "snippet"; // cost: 2
 
     public final static String ORDER_TIME = "time"; // default value
     public final static String ORDER_RELEVANCE = "relevance";

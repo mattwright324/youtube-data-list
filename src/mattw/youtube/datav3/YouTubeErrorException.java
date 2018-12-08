@@ -1,5 +1,9 @@
 package mattw.youtube.datav3;
 
+/**
+ * @version 2018-12-08
+ * @author mattwright324
+ */
 public class YouTubeErrorException extends Exception {
 
     public YouTubeError error;

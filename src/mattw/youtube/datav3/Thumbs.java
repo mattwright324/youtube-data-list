@@ -8,6 +8,10 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 
+/**
+ * @version 2018-12-08
+ * @author mattwright324
+ */
 public class Thumbs {
     @SerializedName("default")
     public Thumbnail default_thumb;
