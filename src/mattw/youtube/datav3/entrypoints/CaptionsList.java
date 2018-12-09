@@ -1,4 +1,4 @@
-package mattw.youtube.datav3.resources;
+package mattw.youtube.datav3.entrypoints;
 
 import mattw.youtube.datav3.*;
 
@@ -6,40 +6,39 @@ import java.io.IOException;
 import java.util.Date;
 
 /**
+ * @link https://developers.google.com/youtube/v3/docs/captions/list
  * @version 2018-12-08
  * @author mattwright324
  */
 @AcceptsParts(values = {Parts.ID, Parts.SNIPPET})
 public class CaptionsList extends YouTubeResource {
 
-    {
-        this.dataPath = "captions";
-    }
-
     public Item[] items;
 
     public CaptionsList(YouTubeData3 data) {
         super(data);
+        setCost(50);
+        setDataPath("captions");
     }
 
     public boolean hasItems() { return items != null; }
 
     public CaptionsList get(String videoId) throws IOException, YouTubeErrorException {
-        fields.put("videoId", videoId);
+        setField("videoId", videoId);
         return get();
     }
 
     public CaptionsList get(String part, String videoId) throws IOException, YouTubeErrorException {
-        fields.put("part", part);
+        setField("part", part);
         return get(videoId);
     }
 
     public CaptionsList get(String part, String videoId, String ids) throws IOException, YouTubeErrorException {
-        fields.put("id", ids);
+        setField("id", ids);
         return get(part, videoId);
     }
 
-    public class Item extends YouTubeResource.Item {
+    public class Item extends BaseItem {
         public Snippet snippet;
 
         public boolean hasSnippet() {

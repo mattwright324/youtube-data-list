@@ -1,4 +1,4 @@
-package mattw.youtube.datav3.resources;
+package mattw.youtube.datav3.entrypoints;
 
 import mattw.youtube.datav3.*;
 
@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.Date;
 
 /**
+ * @link https://developers.google.com/youtube/v3/docs/subscriptions/list
  * @version 2018-12-08
  * @author mattwright324
  */
@@ -18,47 +19,45 @@ public class SubscriptionsList extends YouTubeResource {
     public static final String ORDER_RELEVANCE = "relevance";
     public static final String ORDER_UNREAD = "unread";
 
-    {
-        this.dataPath = "subscriptions";
-    }
-
     public String nextPageToken;
     public String prevPageToken;
     public Item[] items;
 
     public SubscriptionsList(YouTubeData3 data) {
         super(data);
-        fields.put("maxResults", 50);
+        setCost(1);
+        setField("maxResults", 50);
+        setDataPath("subscriptions");
     }
 
     public boolean hasItems() { return items != null; }
 
     public SubscriptionsList maxResults(int maxResults) {
-        fields.put("maxResults", maxResults);
+        setField("maxResults", maxResults);
         return this;
     }
 
     public SubscriptionsList order(String order) {
-        fields.put("order", order);
+        setField("order", order);
         return this;
     }
 
     public SubscriptionsList getByChannel(String part, String channelId, String pageToken) throws IOException, YouTubeErrorException {
-        fields.put("part", part);
-        fields.put("channelId", channelId);
-        fields.put("pageToken", pageToken);
+        setField("part", part);
+        setField("channelId", channelId);
+        setField("pageToken", pageToken);
         return get();
     }
 
     public SubscriptionsList getByIds(String part, String ids, String forChannelId, String pageToken) throws IOException, YouTubeErrorException {
-        fields.put("part", part);
-        fields.put("id", ids);
-        fields.put("forChannelId", forChannelId);
-        fields.put("pageToken", pageToken);
+        setField("part", part);
+        setField("id", ids);
+        setField("forChannelId", forChannelId);
+        setField("pageToken", pageToken);
         return get();
     }
 
-    public class Item extends YouTubeResource.Item {
+    public class Item extends BaseItem {
 
         public Snippet snippet;
         public ContentDetails contentDetails;

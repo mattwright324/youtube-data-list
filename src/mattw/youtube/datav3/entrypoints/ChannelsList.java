@@ -1,4 +1,4 @@
-package mattw.youtube.datav3.resources;
+package mattw.youtube.datav3.entrypoints;
 
 import mattw.youtube.datav3.*;
 
@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.Date;
 
 /**
+ * @link https://developers.google.com/youtube/v3/docs/channels/list
  * @version 2018-12-08
  * @author mattwright324
  */
@@ -26,55 +27,53 @@ public class ChannelsList extends YouTubeResource {
 
     public final static int MAX_RESULTS = 50;
 
-    {
-        this.dataPath = "channels";
-    }
-
     public String nextPageToken;
     public String prevPageToken;
     public Item[] items;
 
     public ChannelsList(YouTubeData3 data) {
         super(data);
-        fields.put("maxResults", 50);
+        setCost(1);
+        setField("maxResults", 50);
+        setDataPath("channels");
     }
 
     public boolean hasItems() { return items != null; }
 
     public ChannelsList maxResults(int maxResults) {
-        fields.put("maxResults", maxResults);
+        setField("maxResults", maxResults);
         return this;
     }
 
     public ChannelsList getByCategory(String part, String categoryId, String pageToken) throws IOException, YouTubeErrorException {
-        fields.put("part", part);
-        fields.put("categoryId", categoryId);
-        fields.put("pageToken", pageToken);
+        setField("part", part);
+        setField("categoryId", categoryId);
+        setField("pageToken", pageToken);
         return get();
     }
 
     public ChannelsList getByUsername(String part, String forUsername, String pageToken) throws IOException, YouTubeErrorException {
-        fields.put("part", part);
-        fields.put("forUsername", forUsername);
-        fields.put("pageToken", pageToken);
+        setField("part", part);
+        setField("forUsername", forUsername);
+        setField("pageToken", pageToken);
         return get();
     }
 
     public ChannelsList getByChannel(String part, String channelId, String pageToken) throws IOException, YouTubeErrorException {
-        fields.put("part", part);
-        fields.put("id", channelId);
-        fields.put("pageToken", pageToken);
+        setField("part", part);
+        setField("id", channelId);
+        setField("pageToken", pageToken);
         return get();
     }
 
     public ChannelsList getMine(String part, String pageToken) throws IOException, YouTubeErrorException {
-        fields.put("part", part);
-        fields.put("mine", "true");
-        fields.put("pageToken", pageToken);
+        setField("part", part);
+        setField("mine", "true");
+        setField("pageToken", pageToken);
         return get();
     }
 
-    public class Item extends YouTubeResource.Item {
+    public class Item extends BaseItem {
         public AuditDetails auditDetails;
         public BrandingSettings brandingSettings;
         public ContentDetails contentDetails;

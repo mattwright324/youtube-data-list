@@ -1,4 +1,4 @@
-package mattw.youtube.datav3.resources;
+package mattw.youtube.datav3.entrypoints;
 
 import mattw.youtube.datav3.*;
 
@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.Date;
 
 /**
+ * @link https://developers.google.com/youtube/v3/docs/videos/list
  * @version 2018-12-08
  * @author mattwright324
  */
@@ -29,41 +30,39 @@ public class VideosList extends YouTubeResource {
 
     public final static String CHART_MOST_POPULAR = "mostPopular";
 
-    {
-        this.dataPath = "videos";
-    }
-
     public String nextPageToken;
     public String prevPageToken;
     public Item[] items;
 
     public VideosList(YouTubeData3 data) {
         super(data);
-        fields.put("maxResults", 50);
+        setCost(1);
+        setField("maxResults", 50);
+        setDataPath("videos");
     }
 
     public VideosList maxResults(int maxResults) {
-        fields.put("maxResults", maxResults);
+        setField("maxResults", maxResults);
         return this;
     }
 
     public VideosList getByIds(String part, String ids, String pageToken) throws IOException, YouTubeErrorException {
-        fields.put("part", part);
-        fields.put("id", ids);
-        fields.put("pageToken", pageToken);
+        setField("part", part);
+        setField("id", ids);
+        setField("pageToken", pageToken);
         return get();
     }
 
     public VideosList getByChart(String part, String chart, String regionCode, String videoCategoryId, String pageToken) throws IOException, YouTubeErrorException {
-        fields.put("part", part);
-        fields.put("chart", chart);
-        fields.put("regionCode", regionCode);
-        fields.put("videoCategoryId", videoCategoryId);
-        fields.put("pageToken", pageToken);
+        setField("part", part);
+        setField("chart", chart);
+        setField("regionCode", regionCode);
+        setField("videoCategoryId", videoCategoryId);
+        setField("pageToken", pageToken);
         return get();
     }
 
-    public class Item extends YouTubeResource.Item {
+    public class Item extends BaseItem {
 
         public Snippet snippet;
         public ContentDetails contentDetails;

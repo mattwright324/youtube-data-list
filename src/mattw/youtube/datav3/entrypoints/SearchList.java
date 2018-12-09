@@ -1,4 +1,4 @@
-package mattw.youtube.datav3.resources;
+package mattw.youtube.datav3.entrypoints;
 
 import mattw.youtube.datav3.*;
 
@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.Date;
 
 /**
+ * @link https://developers.google.com/youtube/v3/docs/search/list
  * @version 2018-12-08
  * @author mattwright324
  */
@@ -26,10 +27,6 @@ public class SearchList extends YouTubeResource {
     public final static String ORDER_VIDEO_COUNT = "videoCount";
     public final static String ORDER_VIEW_COUNT = "viewCount";
 
-    {
-        this.dataPath = "search";
-    }
-
     public String nextPageToken;
     public String prevPageToken;
     public String regionCode;
@@ -37,48 +34,48 @@ public class SearchList extends YouTubeResource {
 
     public SearchList(YouTubeData3 data) {
         super(data);
-        fields.put("maxResults", 50);
-        fields.put("type", TYPE_ALL);
-        fields.put("order", ORDER_RELEVANCE);
+        setCost(100);
+        setField("maxResults", 50);
+        setField("type", TYPE_ALL);
+        setField("order", ORDER_RELEVANCE);
+        setDataPath("search");
     }
 
     public boolean hasItems() { return items != null; }
 
     public SearchList maxResults(int maxResults) {
-        fields.put("maxResults", maxResults);
+        setField("maxResults", maxResults);
         return this;
     }
 
     public SearchList publishedBefore(String publishedBefore) {
-        fields.put("publishedBefore", publishedBefore);
+        setField("publishedBefore", publishedBefore);
         return this;
     }
 
     public SearchList publishedAfter(String publishedAfter) {
-        fields.put("publishedAfter", publishedAfter);
+        setField("publishedAfter", publishedAfter);
         return this;
     }
 
     public SearchList order(String order) {
-        fields.put("order", order);
+        setField("order", order);
         return this;
     }
 
-    public SearchList get(String part, String q, String type, String pageToken) throws IOException, YouTubeErrorException {
-        fields.put("part", part);
-        fields.put("q", q);
-        fields.put("type", type);
-        fields.put("pageToken", pageToken);
+    public SearchList get(String q, String type, String pageToken) throws IOException, YouTubeErrorException {
+        setField("q", q);
+        setField("type", type);
+        setField("pageToken", pageToken);
         return get();
     }
 
-    public SearchList getByLocation(String part, String q, String pageToken, String location, String locationRadius) throws IOException, YouTubeErrorException {
-        fields.put("part", part);
-        fields.put("q", q);
-        fields.put("type", TYPE_VIDEO);
-        fields.put("pageToken", pageToken);
-        fields.put("location", location);
-        fields.put("locationRadius", locationRadius);
+    public SearchList getByLocation(String q, String pageToken, String location, String locationRadius) throws IOException, YouTubeErrorException {
+        setField("q", q);
+        setField("type", TYPE_VIDEO);
+        setField("pageToken", pageToken);
+        setField("location", location);
+        setField("locationRadius", locationRadius);
         return get();
     }
 

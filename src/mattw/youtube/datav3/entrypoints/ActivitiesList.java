@@ -1,4 +1,4 @@
-package mattw.youtube.datav3.resources;
+package mattw.youtube.datav3.entrypoints;
 
 import mattw.youtube.datav3.*;
 
@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.Date;
 
 /**
+ * @link https://developers.google.com/youtube/v3/docs/activities/list
  * @version 2018-12-08
  * @author mattwright324
  */
@@ -14,38 +15,33 @@ public class ActivitiesList extends YouTubeResource {
 
     public static final int MAX_RESULTS = 50;
 
-    {
-        this.dataPath = "activities";
-    }
-
     public String nextPageToken;
     public String prevPageToken;
     public Item[] items;
 
     public ActivitiesList(YouTubeData3 data) {
         super(data);
-        fields.put("maxResults", 50);
+        setCost(1);
+        setField("maxResults", 50);
+        setDataPath("activities");
     }
 
-    public boolean hasItems() { return items != null; }
+    public boolean hasItems() {
+        return items != null;
+    }
 
     public ActivitiesList maxResults(int maxResults) {
-        fields.put("maxResults", maxResults);
+        setField("maxResults", maxResults);
         return this;
     }
 
     public ActivitiesList get(String channelId, String pageToken) throws IOException, YouTubeErrorException {
-        fields.put("channelId", channelId);
-        fields.put("pageToken", pageToken);
+        setField("channelId", channelId);
+        setField("pageToken", pageToken);
         return get();
     }
 
-    public ActivitiesList get(String part, String channelId, String pageToken) throws IOException, YouTubeErrorException {
-        fields.put("part", part);
-        return get(channelId, pageToken);
-    }
-
-    public class Item extends YouTubeResource.Item {
+    public class Item extends BaseItem {
 
         public Snippet snippet;
         public ContentDetails contentDetails;

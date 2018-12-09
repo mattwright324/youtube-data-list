@@ -6,29 +6,54 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.URL;
 
 /**
  * @version 2018-12-08
  * @author mattwright324
  */
-public class Thumbs {
+public class Thumbs implements Serializable {
+
     @SerializedName("default")
-    public Thumbnail default_thumb;
-    public Thumbnail medium;
-    public Thumbnail high;
+    Thumbnail default_thumb;
+    Thumbnail medium;
+    Thumbnail high;
 
-    public class Thumbnail {
-        public URL url;
-        public int width;
-        public int height;
+    public class Thumbnail implements Serializable {
+        URL url;
+        int width, height;
 
-        public BufferedImage getBufferedImage() throws IOException {
+        public URL getURL() {
+            return url;
+        }
+
+        public int getWidth() {
+            return width;
+        }
+
+        public int getHeight() {
+            return height;
+        }
+
+        public BufferedImage toBufferedImage() throws IOException {
             return ImageIO.read(url);
         }
 
-        public ImageIcon getImageIcon() throws IOException {
-            return new ImageIcon(getBufferedImage());
+        public ImageIcon toImageIcon() throws IOException {
+            return new ImageIcon(toBufferedImage());
         }
+    }
+
+    public Thumbnail getDefault() {
+        return default_thumb;
+    }
+
+    public Thumbnail getMedium() {
+        return medium;
+    }
+
+    public Thumbnail getHigh() {
+        return high;
     }
 }

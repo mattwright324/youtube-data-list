@@ -1,4 +1,4 @@
-package mattw.youtube.datav3;
+package mattw.youtube.datav3.entrypoints;
 
 /**
  * @version 2018-12-08

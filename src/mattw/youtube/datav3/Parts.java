@@ -43,4 +43,8 @@ public enum Parts {
         return requestId;
     }
 
+    public String toString() {
+        return String.format("%s[cost=%s]", getId(), getCost());
+    }
+
 }

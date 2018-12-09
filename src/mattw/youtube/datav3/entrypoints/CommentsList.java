@@ -1,4 +1,4 @@
-package mattw.youtube.datav3.resources;
+package mattw.youtube.datav3.entrypoints;
 
 import mattw.youtube.datav3.*;
 
@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.Date;
 
 /**
+ * @link https://developers.google.com/youtube/v3/docs/comments/list
  * @version 2018-12-08
  * @author mattwright324
  */
@@ -13,50 +14,47 @@ import java.util.Date;
 public class CommentsList extends YouTubeResource {
 
     public final static int MAX_RESULTS = 100;
-    public final static String PART_SNIPPET = "snippet"; // cost: 2
 
     public final static String FORMAT_HTML = "html";
     public final static String FORMAT_PLAIN = "plainText";
-
-    {
-        this.dataPath = "comments";
-    }
 
     public String nextPageToken;
     public Item[] items;
 
     public CommentsList(YouTubeData3 data) {
         super(data);
-        fields.put("maxResults", 100);
+        setCost(1);
+        setField("maxResults", 100);
+        setDataPath("comments");
     }
 
     public boolean hasItems() { return items != null; }
 
     public CommentsList maxResults(int maxResults) {
-        fields.put("maxResults", maxResults);
+        setField("maxResults", maxResults);
         return this;
     }
 
     public CommentsList textFormat(String textFormat) {
-        fields.put("textFormat", textFormat);
+        setField("textFormat", textFormat);
         return this;
     }
 
     public CommentsList get(String part, String id, String pageToken) throws IOException, YouTubeErrorException {
-        fields.put("part", part);
-        fields.put("id", id);
-        fields.put("pageToken", pageToken);
+        setField("part", part);
+        setField("id", id);
+        setField("pageToken", pageToken);
         return get();
     }
 
     public CommentsList getByParentId(String part, String parentId, String pageToken) throws IOException, YouTubeErrorException {
-        fields.put("part", part);
-        fields.put("parentId", parentId);
-        fields.put("pageToken", pageToken);
+        setField("part", part);
+        setField("parentId", parentId);
+        setField("pageToken", pageToken);
         return get();
     }
 
-    public class Item extends YouTubeResource.Item {
+    public class Item extends BaseItem {
 
         public Snippet snippet;
 

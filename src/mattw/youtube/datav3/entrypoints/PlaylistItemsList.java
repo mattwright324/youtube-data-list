@@ -1,4 +1,4 @@
-package mattw.youtube.datav3.resources;
+package mattw.youtube.datav3.entrypoints;
 
 import mattw.youtube.datav3.*;
 
@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.Date;
 
 /**
+ * @link https://developers.google.com/youtube/v3/docs/playlistItems/list
  * @version 2018-12-08
  * @author mattwright324
  */
@@ -14,34 +15,32 @@ public class PlaylistItemsList extends YouTubeResource {
 
     public final static int MAX_RESULTS = 50;
 
-    {
-        this.dataPath = "playlistItems";
-    }
-
     public String nextPageToken;
     public String prevPageToken;
     public Item[] items;
 
     public PlaylistItemsList(YouTubeData3 data) {
         super(data);
-        fields.put("maxResults", 50);
+        setCost(1);
+        setField("maxResults", 50);
+        setDataPath("playlistItems");
     }
 
     public boolean hasItems() { return items != null; }
 
     public PlaylistItemsList maxResults(int maxResults) {
-        fields.put("maxResults", maxResults);
+        setField("maxResults", maxResults);
         return this;
     }
 
     public PlaylistItemsList get(String part, String playlistId, String pageToken) throws IOException, YouTubeErrorException {
-        fields.put("part", part);
-        fields.put("playlistId", playlistId);
-        fields.put("pageToken", pageToken);
+        setField("part", part);
+        setField("playlistId", playlistId);
+        setField("pageToken", pageToken);
         return get();
     }
 
-    public class Item extends YouTubeResource.Item {
+    public class Item extends BaseItem {
         public Snippet snippet;
         public ContentDetails contentDetails;
         public Status status;

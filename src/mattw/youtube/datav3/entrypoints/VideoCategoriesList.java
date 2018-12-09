@@ -1,19 +1,16 @@
-package mattw.youtube.datav3.resources;
+package mattw.youtube.datav3.entrypoints;
 
 import mattw.youtube.datav3.*;
 
 import java.io.IOException;
 
 /**
+ * @link https://developers.google.com/youtube/v3/docs/videoCategories/list
  * @version 2018-12-08
  * @author mattwright324
  */
 @AcceptsParts(values = {Parts.ID, Parts.SNIPPET})
 public class VideoCategoriesList extends YouTubeResource {
-
-    {
-        this.dataPath = "videoCategories";
-    }
 
     public String nextPageToken;
     public String prevPageToken;
@@ -21,25 +18,27 @@ public class VideoCategoriesList extends YouTubeResource {
 
     public VideoCategoriesList(YouTubeData3 data) {
         super(data);
+        setCost(1);
+        setDataPath("videoCategories");
     }
 
     public boolean hasItems() { return items != null; }
 
     public VideoCategoriesList getByIds(String part, String ids, String pageToken) throws IOException, YouTubeErrorException {
-        fields.put("part", part);
-        fields.put("id", ids);
-        fields.put("pageToken", pageToken);
+        setField("part", part);
+        setField("id", ids);
+        setField("pageToken", pageToken);
         return get();
     }
 
     public VideoCategoriesList getByRegionCode(String part, String regionCode, String pageToken) throws IOException, YouTubeErrorException {
-        fields.put("part", part);
-        fields.put("regionCode", regionCode);
-        fields.put("pageToken", pageToken);
+        setField("part", part);
+        setField("regionCode", regionCode);
+        setField("pageToken", pageToken);
         return get();
     }
 
-    public class Item extends YouTubeResource.Item {
+    public class Item extends BaseItem {
 
         public Snippet snippet;
 
