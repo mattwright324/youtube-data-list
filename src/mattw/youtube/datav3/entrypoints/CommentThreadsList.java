@@ -48,22 +48,19 @@ public class CommentThreadsList extends YouTubeResource {
         return this;
     }
 
-    public CommentThreadsList getThreadsRelatedToChannel(String part, String channelId, String pageToken) throws IOException, YouTubeErrorException {
-        setField("part", part);
+    public CommentThreadsList getThreadsRelatedToChannel(String channelId, String pageToken) throws IOException, YouTubeErrorException {
         setField("allThreadsRelatedToChannelId", channelId);
         setField("pageToken", pageToken);
         return get();
     }
 
-    public CommentThreadsList getThreadsByChannel(String part, String channelId, String pageToken) throws IOException, YouTubeErrorException {
-        setField("part", part);
+    public CommentThreadsList getThreadsByChannel(String channelId, String pageToken) throws IOException, YouTubeErrorException {
         setField("channelId", channelId);
         setField("pageToken", pageToken);
         return get();
     }
 
-    public CommentThreadsList getThreadsByVideo(String part, String videoId, String pageToken) throws IOException, YouTubeErrorException {
-        setField("part", part);
+    public CommentThreadsList getThreadsByVideo(String videoId, String pageToken) throws IOException, YouTubeErrorException {
         setField("videoId", videoId);
         setField("pageToken", pageToken);
         return get();

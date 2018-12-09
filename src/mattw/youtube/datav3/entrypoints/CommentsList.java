@@ -40,15 +40,13 @@ public class CommentsList extends YouTubeResource {
         return this;
     }
 
-    public CommentsList get(String part, String id, String pageToken) throws IOException, YouTubeErrorException {
-        setField("part", part);
+    public CommentsList get(String id, String pageToken) throws IOException, YouTubeErrorException {
         setField("id", id);
         setField("pageToken", pageToken);
         return get();
     }
 
-    public CommentsList getByParentId(String part, String parentId, String pageToken) throws IOException, YouTubeErrorException {
-        setField("part", part);
+    public CommentsList getByParentId(String parentId, String pageToken) throws IOException, YouTubeErrorException {
         setField("parentId", parentId);
         setField("pageToken", pageToken);
         return get();

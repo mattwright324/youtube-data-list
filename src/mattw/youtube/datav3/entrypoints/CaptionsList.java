@@ -28,14 +28,9 @@ public class CaptionsList extends YouTubeResource {
         return get();
     }
 
-    public CaptionsList get(String part, String videoId) throws IOException, YouTubeErrorException {
-        setField("part", part);
-        return get(videoId);
-    }
-
-    public CaptionsList get(String part, String videoId, String ids) throws IOException, YouTubeErrorException {
+    public CaptionsList get(String videoId, String ids) throws IOException, YouTubeErrorException {
         setField("id", ids);
-        return get(part, videoId);
+        return get(videoId);
     }
 
     public class Item extends BaseItem {

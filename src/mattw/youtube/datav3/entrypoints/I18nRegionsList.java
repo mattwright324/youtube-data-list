@@ -22,9 +22,8 @@ public class I18nRegionsList extends YouTubeResource {
 
     public boolean hasItems() { return items != null; }
 
-    public I18nRegionsList get(String part) throws IOException, YouTubeErrorException {
-        setField("part", part);
-        return get();
+    public I18nRegionsList get() throws IOException, YouTubeErrorException {
+        return super.get();
     }
 
     public class Item extends BaseItem {

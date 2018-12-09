@@ -23,14 +23,12 @@ public class ChannelSectionsList extends YouTubeResource implements Serializable
 
     public boolean hasItems() { return items != null; }
 
-    public ChannelSectionsList getByChannel(String part, String channelId) throws IOException, YouTubeErrorException {
-        setField("part", part);
+    public ChannelSectionsList getByChannel(String channelId) throws IOException, YouTubeErrorException {
         setField("channelId", channelId);
         return get();
     }
 
-    public ChannelSectionsList getBySection(String part, String sectionId) throws IOException, YouTubeErrorException {
-        setField("part", part);
+    public ChannelSectionsList getBySection(String sectionId) throws IOException, YouTubeErrorException {
         setField("sectionId", sectionId);
         return get();
     }

@@ -42,15 +42,13 @@ public class SubscriptionsList extends YouTubeResource {
         return this;
     }
 
-    public SubscriptionsList getByChannel(String part, String channelId, String pageToken) throws IOException, YouTubeErrorException {
-        setField("part", part);
+    public SubscriptionsList getByChannel(String channelId, String pageToken) throws IOException, YouTubeErrorException {
         setField("channelId", channelId);
         setField("pageToken", pageToken);
         return get();
     }
 
-    public SubscriptionsList getByIds(String part, String ids, String forChannelId, String pageToken) throws IOException, YouTubeErrorException {
-        setField("part", part);
+    public SubscriptionsList getByIds(String ids, String forChannelId, String pageToken) throws IOException, YouTubeErrorException {
         setField("id", ids);
         setField("forChannelId", forChannelId);
         setField("pageToken", pageToken);

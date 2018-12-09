@@ -33,15 +33,13 @@ public class PlaylistsList extends YouTubeResource {
         return this;
     }
 
-    public PlaylistsList getByChannel(String part, String channelId, String pageToken) throws IOException, YouTubeErrorException {
-        setField("part", part);
+    public PlaylistsList getByChannel(String channelId, String pageToken) throws IOException, YouTubeErrorException {
         setField("channelId", channelId);
         setField("pageToken", pageToken);
         return get();
     }
 
-    public PlaylistsList getByPlaylist(String part, String playlistId, String pageToken) throws IOException, YouTubeErrorException {
-        setField("part", part);
+    public PlaylistsList getByPlaylist(String playlistId, String pageToken) throws IOException, YouTubeErrorException {
         setField("playlistId", playlistId);
         setField("pageToken", pageToken);
         return get();

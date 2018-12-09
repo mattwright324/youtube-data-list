@@ -24,14 +24,12 @@ public class GuideCategoriesList extends YouTubeResource {
 
     public boolean hasItems() { return items != null; }
 
-    public GuideCategoriesList getByChannelIds(String part, String ids) throws IOException, YouTubeErrorException {
-        setField("part", part);
+    public GuideCategoriesList getByChannelIds(String ids) throws IOException, YouTubeErrorException {
         setField("ids", ids);
         return get();
     }
 
-    public GuideCategoriesList getByRegionCode(String part, String regionCode) throws IOException, YouTubeErrorException {
-        setField("part", part);
+    public GuideCategoriesList getByRegionCode(String regionCode) throws IOException, YouTubeErrorException {
         setField("regionCode", regionCode);
         return get();
     }

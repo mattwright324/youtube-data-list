@@ -24,15 +24,13 @@ public class VideoCategoriesList extends YouTubeResource {
 
     public boolean hasItems() { return items != null; }
 
-    public VideoCategoriesList getByIds(String part, String ids, String pageToken) throws IOException, YouTubeErrorException {
-        setField("part", part);
+    public VideoCategoriesList getByIds(String ids, String pageToken) throws IOException, YouTubeErrorException {
         setField("id", ids);
         setField("pageToken", pageToken);
         return get();
     }
 
-    public VideoCategoriesList getByRegionCode(String part, String regionCode, String pageToken) throws IOException, YouTubeErrorException {
-        setField("part", part);
+    public VideoCategoriesList getByRegionCode(String regionCode, String pageToken) throws IOException, YouTubeErrorException {
         setField("regionCode", regionCode);
         setField("pageToken", pageToken);
         return get();

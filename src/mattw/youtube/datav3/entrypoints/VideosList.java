@@ -46,15 +46,13 @@ public class VideosList extends YouTubeResource {
         return this;
     }
 
-    public VideosList getByIds(String part, String ids, String pageToken) throws IOException, YouTubeErrorException {
-        setField("part", part);
+    public VideosList getByIds(String ids, String pageToken) throws IOException, YouTubeErrorException {
         setField("id", ids);
         setField("pageToken", pageToken);
         return get();
     }
 
-    public VideosList getByChart(String part, String chart, String regionCode, String videoCategoryId, String pageToken) throws IOException, YouTubeErrorException {
-        setField("part", part);
+    public VideosList getByChart(String chart, String regionCode, String videoCategoryId, String pageToken) throws IOException, YouTubeErrorException {
         setField("chart", chart);
         setField("regionCode", regionCode);
         setField("videoCategoryId", videoCategoryId);

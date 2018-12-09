@@ -20,9 +20,8 @@ public class VideoAbuseReportReasonsList extends YouTubeResource {
         setDataPath("videoAbuseReportReasons");
     }
 
-    public VideoAbuseReportReasonsList get(String part) throws IOException, YouTubeErrorException {
-        setField("part", part);
-        return get();
+    public VideoAbuseReportReasonsList get() throws IOException, YouTubeErrorException {
+        return super.get();
     }
 
     public boolean hasItems() { return items != null; }
