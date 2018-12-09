@@ -45,29 +45,25 @@ public class ChannelsList extends YouTubeResource {
         return this;
     }
 
-    public ChannelsList getByCategory(String part, String categoryId, String pageToken) throws IOException, YouTubeErrorException {
-        setField("part", part);
+    public ChannelsList getByCategory(String categoryId, String pageToken) throws IOException, YouTubeErrorException {
         setField("categoryId", categoryId);
         setField("pageToken", pageToken);
         return get();
     }
 
-    public ChannelsList getByUsername(String part, String forUsername, String pageToken) throws IOException, YouTubeErrorException {
-        setField("part", part);
+    public ChannelsList getByUsername(String forUsername, String pageToken) throws IOException, YouTubeErrorException {
         setField("forUsername", forUsername);
         setField("pageToken", pageToken);
         return get();
     }
 
-    public ChannelsList getByChannel(String part, String channelId, String pageToken) throws IOException, YouTubeErrorException {
-        setField("part", part);
+    public ChannelsList getByChannel(String channelId, String pageToken) throws IOException, YouTubeErrorException {
         setField("id", channelId);
         setField("pageToken", pageToken);
         return get();
     }
 
-    public ChannelsList getMine(String part, String pageToken) throws IOException, YouTubeErrorException {
-        setField("part", part);
+    public ChannelsList getMine(String pageToken) throws IOException, YouTubeErrorException {
         setField("mine", "true");
         setField("pageToken", pageToken);
         return get();
