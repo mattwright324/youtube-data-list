@@ -1,24 +1,23 @@
 package mattw.youtube.datav3;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import mattw.youtube.datav3.resources.*;
+import mattw.youtube.datav3.entrypoints.*;
 
-import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicLong;
 
+/**
+ * @link https://developers.google.com/youtube/v3/docs/
+ * @version 2018-12-08
+ * @author mattwright324
+ */
 public class YouTubeData3 {
 
-    protected final String BASE_API = "https://www.googleapis.com/youtube/v3/";
     private String dataApiKey;
     private String profileAccessToken;
     private Map<String,String> requestHeaders = new HashMap<>();
     private boolean useHttps = true;
-
-    private Gson gson = new GsonBuilder()
-            .excludeFieldsWithModifiers(Modifier.PROTECTED, Modifier.FINAL, Modifier.STATIC, Modifier.ABSTRACT)
-            .create();
+    private AtomicLong spentCost = new AtomicLong(0);
 
     public YouTubeData3() {}
 
@@ -26,16 +25,29 @@ public class YouTubeData3 {
         this.dataApiKey = dataApiKey;
     }
 
-    public String getDataApiKey() { return dataApiKey; }
-    public String getProfileAccessToken() { return profileAccessToken; }
-    public boolean getUseHttps() { return useHttps; }
+    public String getDataApiKey() {
+        return dataApiKey;
+    }
 
-    public void setRequestHeader(String name, String value) { requestHeaders.put(name, value); }
-    public void setUseHttps(boolean https) { this.useHttps = https; }
+    public String getProfileAccessToken() {
+        return profileAccessToken;
+    }
 
-    public Map<String,String> getRequestHeaders() { return requestHeaders; }
+    public boolean getUseHttps() {
+        return useHttps;
+    }
 
-    protected Gson gson() { return gson; }
+    public void setRequestHeader(String name, String value) {
+        requestHeaders.put(name, value);
+    }
+
+    public void setUseHttps(boolean https) {
+        this.useHttps = https;
+    }
+
+    public Map<String,String> getRequestHeaders() {
+        return requestHeaders;
+    }
 
     public void setDataApiKey(String dataApiKey) {
         this.dataApiKey = dataApiKey;
@@ -43,6 +55,14 @@ public class YouTubeData3 {
 
     public void setProfileAccessToken(String accessToken) {
         this.profileAccessToken = accessToken;
+    }
+
+    public synchronized void spendCost(long cost) {
+        this.spentCost.addAndGet(cost);
+    }
+
+    public long getTotalSpentCost() {
+        return this.spentCost.get();
     }
 
     public ActivitiesList activitiesList() { return new ActivitiesList(this); }
