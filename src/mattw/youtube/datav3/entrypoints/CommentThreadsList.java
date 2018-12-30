@@ -3,10 +3,11 @@ package mattw.youtube.datav3.entrypoints;
 import mattw.youtube.datav3.*;
 
 import java.io.IOException;
+import java.io.Serializable;
 
 /**
  * @link https://developers.google.com/youtube/v3/docs/commentThreads/list
- * @version 2018-12-08
+ * @version 2018-12-30
  * @author mattwright324
  */
 @AcceptsParts(values = {Parts.ID, Parts.SNIPPET, Parts.REPLIES})
@@ -20,8 +21,8 @@ public class CommentThreadsList extends YouTubeResource {
     public final static String FORMAT_HTML = "html"; // default value
     public final static String FORMAT_PLAIN = "plainText";
 
-    public String nextPageToken;
-    public Item[] items;
+    String nextPageToken;
+    Item[] items;
 
     public CommentThreadsList(YouTubeData3 data) {
         super(data);
@@ -30,8 +31,6 @@ public class CommentThreadsList extends YouTubeResource {
         setField("order", ORDER_TIME);
         setDataPath("commentThreads");
     }
-
-    public boolean hasItems() { return items != null; }
 
     public CommentThreadsList maxResults(int maxResults) {
         setField("maxResults", maxResults);
@@ -66,10 +65,21 @@ public class CommentThreadsList extends YouTubeResource {
         return get();
     }
 
-    public class Item extends BaseItem {
+    public boolean hasItems() {
+        return items != null;
+    }
 
-        public Snippet snippet;
-        public Replies replies;
+    public String getNextPageToken() {
+        return nextPageToken;
+    }
+
+    public Item[] getItems() {
+        return items;
+    }
+
+    public static class Item extends BaseItem {
+        Snippet snippet;
+        Replies replies;
 
         public boolean hasSnippet() {
             return snippet != null;
@@ -79,16 +89,50 @@ public class CommentThreadsList extends YouTubeResource {
             return replies != null;
         }
 
-        public class Snippet{
-            public String channelId;
-            public String videoId;
-            public boolean canReply;
-            public CommentsList.Item topLevelComment;
-            public int totalReplyCount;
-            public boolean isPublic;
+        public Snippet getSnippet() {
+            return snippet;
         }
-        public class Replies {
-            public CommentsList.Item[] comments;
+
+        public Replies getReplies() {
+            return replies;
+        }
+
+        public static class Snippet implements Serializable {
+            String channelId, videoId;
+            boolean canReply, isPublic;
+            CommentsList.Item topLevelComment;
+            int totalReplyCount;
+
+            public String getChannelId() {
+                return channelId;
+            }
+
+            public String getVideoId() {
+                return videoId;
+            }
+
+            public boolean isCanReply() {
+                return canReply;
+            }
+
+            public boolean isPublic() {
+                return isPublic;
+            }
+
+            public CommentsList.Item getTopLevelComment() {
+                return topLevelComment;
+            }
+
+            public int getTotalReplyCount() {
+                return totalReplyCount;
+            }
+        }
+        public static class Replies implements Serializable {
+            CommentsList.Item[] comments;
+
+            public CommentsList.Item[] getComments() {
+                return comments;
+            }
         }
     }
 }

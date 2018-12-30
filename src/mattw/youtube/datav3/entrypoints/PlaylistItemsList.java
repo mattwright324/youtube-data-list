@@ -3,11 +3,12 @@ package mattw.youtube.datav3.entrypoints;
 import mattw.youtube.datav3.*;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * @link https://developers.google.com/youtube/v3/docs/playlistItems/list
- * @version 2018-12-08
+ * @version 2018-12-30
  * @author mattwright324
  */
 @AcceptsParts(values = {Parts.ID, Parts.SNIPPET, Parts.CONTENT_DETAILS, Parts.STATUS})
@@ -15,9 +16,8 @@ public class PlaylistItemsList extends YouTubeResource {
 
     public final static int MAX_RESULTS = 50;
 
-    public String nextPageToken;
-    public String prevPageToken;
-    public Item[] items;
+    String nextPageToken, prevPageToken;
+    Item[] items;
 
     public PlaylistItemsList(YouTubeData3 data) {
         super(data);
@@ -25,8 +25,6 @@ public class PlaylistItemsList extends YouTubeResource {
         setField("maxResults", 50);
         setDataPath("playlistItems");
     }
-
-    public boolean hasItems() { return items != null; }
 
     public PlaylistItemsList maxResults(int maxResults) {
         setField("maxResults", maxResults);
@@ -39,10 +37,26 @@ public class PlaylistItemsList extends YouTubeResource {
         return get();
     }
 
-    public class Item extends BaseItem {
-        public Snippet snippet;
-        public ContentDetails contentDetails;
-        public Status status;
+    public boolean hasItems() {
+        return items != null;
+    }
+
+    public String getNextPageToken() {
+        return nextPageToken;
+    }
+
+    public String getPrevPageToken() {
+        return prevPageToken;
+    }
+
+    public Item[] getItems() {
+        return items;
+    }
+
+    public static class Item extends BaseItem {
+        Snippet snippet;
+        ContentDetails contentDetails;
+        Status status;
 
         public boolean hasSnippet() {
             return snippet != null;
@@ -56,29 +70,98 @@ public class PlaylistItemsList extends YouTubeResource {
             return status != null;
         }
 
-        public class Snippet {
-            public Date publishedAt;
-            public String channelId;
-            public String title;
-            public String description;
-            public Thumbs thumbnails;
-            public String channelTitle;
-            public String playlistId;
-            public int position;
-            public ResourceId resourceId;
-            public class ResourceId {
-                public String kind;
-                public String videoId;
+        public Snippet getSnippet() {
+            return snippet;
+        }
+
+        public ContentDetails getContentDetails() {
+            return contentDetails;
+        }
+
+        public Status getStatus() {
+            return status;
+        }
+
+        public static class Snippet implements Serializable {
+            Date publishedAt;
+            String channelId, title, description, channelTitle, playlistId;
+            Thumbs thumbnails;
+            int position;
+            ResourceId resourceId;
+
+            public Date getPublishedAt() {
+                return publishedAt;
+            }
+
+            public String getChannelId() {
+                return channelId;
+            }
+
+            public String getTitle() {
+                return title;
+            }
+
+            public String getDescription() {
+                return description;
+            }
+
+            public String getChannelTitle() {
+                return channelTitle;
+            }
+
+            public String getPlaylistId() {
+                return playlistId;
+            }
+
+            public Thumbs getThumbnails() {
+                return thumbnails;
+            }
+
+            public int getPosition() {
+                return position;
+            }
+
+            public ResourceId getResourceId() {
+                return resourceId;
+            }
+
+            public static class ResourceId implements Serializable {
+                String kind, videoId;
+
+                public String getKind() {
+                    return kind;
+                }
+
+                public String getVideoId() {
+                    return videoId;
+                }
             }
         }
-        public class ContentDetails {
-            public String videoId;
-            public String startAt;
-            public String endAt;
-            public String note;
+        public static class ContentDetails implements Serializable {
+            String videoId, startAt, endAt, note;
+
+            public String getVideoId() {
+                return videoId;
+            }
+
+            public String getStartAt() {
+                return startAt;
+            }
+
+            public String getEndAt() {
+                return endAt;
+            }
+
+            public String getNote() {
+                return note;
+            }
         }
-        public class Status {
-            public String privacyStatus;
+        public static class Status implements Serializable {
+            String privacyStatus;
+
+            public String getPrivacyStatus() {
+                return privacyStatus;
+            }
         }
     }
 

@@ -3,11 +3,12 @@ package mattw.youtube.datav3.entrypoints;
 import mattw.youtube.datav3.*;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * @link https://developers.google.com/youtube/v3/docs/search/list
- * @version 2018-12-08
+ * @version 2018-12-30
  * @author mattwright324
  */
 @AcceptsParts(values = {Parts.ID, Parts.SNIPPET})
@@ -27,10 +28,8 @@ public class SearchList extends YouTubeResource {
     public final static String ORDER_VIDEO_COUNT = "videoCount";
     public final static String ORDER_VIEW_COUNT = "viewCount";
 
-    public String nextPageToken;
-    public String prevPageToken;
-    public String regionCode;
-    public Item[] items;
+    String nextPageToken, prevPageToken, regionCode;
+    Item[] items;
 
     public SearchList(YouTubeData3 data) {
         super(data);
@@ -40,8 +39,6 @@ public class SearchList extends YouTubeResource {
         setField("order", ORDER_RELEVANCE);
         setDataPath("search");
     }
-
-    public boolean hasItems() { return items != null; }
 
     public SearchList maxResults(int maxResults) {
         setField("maxResults", maxResults);
@@ -79,21 +76,69 @@ public class SearchList extends YouTubeResource {
         return get();
     }
 
-    public class Item {
-        public String kind;
-        public String etag;
-        public ID id;
-        public Snippet snippet;
+    public boolean hasItems() {
+        return items != null;
+    }
+
+    public String getNextPageToken() {
+        return nextPageToken;
+    }
+
+    public String getPrevPageToken() {
+        return prevPageToken;
+    }
+
+    public String getRegionCode() {
+        return regionCode;
+    }
+
+    public Item[] getItems() {
+        return items;
+    }
+
+    public static class Item implements Serializable {
+        String kind, etag;
+        ID id;
+        Snippet snippet;
 
         public boolean hasSnippet() {
             return snippet != null;
         }
 
-        public class ID {
-            public String kind;
-            public String videoId;
-            public String channelId;
-            public String playlistId;
+        public String getKind() {
+            return kind;
+        }
+
+        public String getEtag() {
+            return etag;
+        }
+
+        public ID getId() {
+            return id;
+        }
+
+        public Snippet getSnippet() {
+            return snippet;
+        }
+
+        public static class ID implements Serializable {
+            String kind, videoId, channelId, playlistId;
+
+            public String getKind() {
+                return kind;
+            }
+
+            public String getVideoId() {
+                return videoId;
+            }
+
+            public String getChannelId() {
+                return channelId;
+            }
+
+            public String getPlaylistId() {
+                return playlistId;
+            }
 
             public String getId() {
                 if(videoId != null) return videoId;
@@ -102,14 +147,38 @@ public class SearchList extends YouTubeResource {
                 return null;
             }
         }
-        public class Snippet {
-            public Date publishedAt;
-            public String channelId;
-            public String title;
-            public String description;
-            public Thumbs thumbnails;
-            public String channelTitle;
-            public String liveBroadcastContent;
+        public static class Snippet implements Serializable {
+            Date publishedAt;
+            String channelId, title, description, liveBroadcastContent, channelTitle;
+            Thumbs thumbnails;
+
+            public Date getPublishedAt() {
+                return publishedAt;
+            }
+
+            public String getChannelId() {
+                return channelId;
+            }
+
+            public String getTitle() {
+                return title;
+            }
+
+            public String getDescription() {
+                return description;
+            }
+
+            public String getLiveBroadcastContent() {
+                return liveBroadcastContent;
+            }
+
+            public String getChannelTitle() {
+                return channelTitle;
+            }
+
+            public Thumbs getThumbnails() {
+                return thumbnails;
+            }
         }
 
         public String toString() {

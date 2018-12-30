@@ -3,11 +3,12 @@ package mattw.youtube.datav3.entrypoints;
 import mattw.youtube.datav3.*;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * @link https://developers.google.com/youtube/v3/docs/channels/list
- * @version 2018-12-08
+ * @version 2018-12-30
  * @author mattwright324
  */
 @AcceptsParts(values = {
@@ -23,13 +24,12 @@ import java.util.Date;
         Parts.STATUS,
         Parts.TOPIC_DETAILS
 })
-public class ChannelsList extends YouTubeResource {
+public class ChannelsList extends YouTubeResource implements Serializable {
 
     public final static int MAX_RESULTS = 50;
 
-    public String nextPageToken;
-    public String prevPageToken;
-    public Item[] items;
+    String nextPageToken, prevPageToken;
+    Item[] items;
 
     public ChannelsList(YouTubeData3 data) {
         super(data);
@@ -37,8 +37,6 @@ public class ChannelsList extends YouTubeResource {
         setField("maxResults", 50);
         setDataPath("channels");
     }
-
-    public boolean hasItems() { return items != null; }
 
     public ChannelsList maxResults(int maxResults) {
         setField("maxResults", maxResults);
@@ -69,16 +67,32 @@ public class ChannelsList extends YouTubeResource {
         return get();
     }
 
-    public class Item extends BaseItem {
-        public AuditDetails auditDetails;
-        public BrandingSettings brandingSettings;
-        public ContentDetails contentDetails;
-        public ContentOwnerDetails contentOwnerDetails;
-        public InvideoPromotion invideoPromotion;
-        public Snippet snippet;
-        public Statistics statistics;
-        public Status status;
-        public TopicDetails topicDetails;
+    public boolean hasItems() {
+        return items != null;
+    }
+
+    public String getNextPageToken() {
+        return nextPageToken;
+    }
+
+    public String getPrevPageToken() {
+        return prevPageToken;
+    }
+
+    public Item[] getItems() {
+        return items;
+    }
+
+    public static class Item extends BaseItem {
+        AuditDetails auditDetails;
+        BrandingSettings brandingSettings;
+        ContentDetails contentDetails;
+        ContentOwnerDetails contentOwnerDetails;
+        InvideoPromotion invideoPromotion;
+        Snippet snippet;
+        Statistics statistics;
+        Status status;
+        TopicDetails topicDetails;
 
         public boolean hasAuditDetails() {
             return auditDetails != null;
@@ -116,117 +130,472 @@ public class ChannelsList extends YouTubeResource {
             return topicDetails != null;
         }
 
-        public class Snippet {
-            public String title;
-            public String description;
-            public String customUrl;
-            public Date publishedAt;
-            public Thumbs thumbnails;
-            public Localized localized;
-            public String country;
-            public class Localized {
-                public String title;
-                public String description;
-            }
+        public AuditDetails getAuditDetails() {
+            return auditDetails;
         }
-        public class ContentDetails {
-            public RelatedPlaylists relatedPlaylists;
-            public class RelatedPlaylists {
-                public String likes;
-                public String favorites;
-                public String uploads;
-                public String watchHistory;
-                public String watchLater;
-            }
+
+        public BrandingSettings getBrandingSettings() {
+            return brandingSettings;
         }
-        public class Statistics {
-            public long viewCount;
-            public long commentCount;
-            public long subsciberCount;
-            public long hiddenSubscriberCount;
-            public long videoCount;
+
+        public ContentDetails getContentDetails() {
+            return contentDetails;
         }
-        public class TopicDetails {
-            public String[] topicIds;
+
+        public ContentOwnerDetails getContentOwnerDetails() {
+            return contentOwnerDetails;
         }
-        public class Status {
-            public String privacyStatus;
-            public boolean isLinked;
-            public String longUploadsStatus;
+
+        public InvideoPromotion getInvideoPromotion() {
+            return invideoPromotion;
         }
-        public class BrandingSettings {
-            public Channel channel;
-            public Watch watch;
-            public Image image;
-            public Hint[] hints;
-            public class Channel {
-                public String title;
-                public String description;
-                public String keywords;
-                public String defaultTab;
-                public String trackingAnalyticsAccountId;
-                public boolean moderateComments;
-                public boolean showRelatedChannels;
-                public boolean showBrowseView;
-                public String featuredChannelsTitle;
-                public String[] featuredChannelsUrls;
-                public String unsubscribedTrailer;
-                public String profileColor;
-                public String defaultLanguage;
-                public String country;
-            }
-            public class Watch {
-                public String textColor;
-                public String backgroundColor;
-                public String featuredPlaylistId;
-            }
-            public class Image {
-                public String bannerImageUrl, bannedModelImageIrl, watchIconImageUrl, trackingIconImageUrl,
-                        bannerTabletLowImageUrl, bannerTabletImageUrl, bannerTabletHdImageUrl, bannerTabletExtraHdImageUrl,
-                        bannerMobileLowImageUrl, bannerMobileImageUrl, bannerMobileHdImageUrl, bannerMobileExtraHdImageUrl,
-                        bannerTvImageUrl, bannerTvLowImageUrl, bannerTvMediumImageUrl, bannerTvHighImageUrl, bannerExternalUrl;
-            }
-            public class Hint {
-                public String property;
-                public String value;
-            }
+
+        public Snippet getSnippet() {
+            return snippet;
         }
-        public class InvideoPromotion {
-            public DefaultTiming defaultTiming;
-            public Position position;
-            public InvideoItem[] items;
-            public boolean useSmartTiming;
-            public class DefaultTiming {
-                public String type;
-                public long offsetMs;
-                public long durationMs;
+
+        public Statistics getStatistics() {
+            return statistics;
+        }
+
+        public Status getStatus() {
+            return status;
+        }
+
+        public TopicDetails getTopicDetails() {
+            return topicDetails;
+        }
+
+        public static class Snippet implements Serializable {
+            String title, description, customUrl, country;
+            Date publishedAt;
+            Thumbs thumbnails;
+            Localized localized;
+
+            public String getTitle() {
+                return title;
             }
-            public class Position {
-                public String type;
-                public String cornerPosition;
+
+            public String getDescription() {
+                return description;
             }
-            public class InvideoItem {
-                public Id id;
-                public DefaultTiming timing;
-                public String customMessage;
-                public boolean promotedByContentOwner;
-                public class Id {
-                    public String type;
-                    public String videoId;
-                    public String websiteUrl;
-                    public String recentlyUploadedBy;
+
+            public String getCustomUrl() {
+                return customUrl;
+            }
+
+            public String getCountry() {
+                return country;
+            }
+
+            public Date getPublishedAt() {
+                return publishedAt;
+            }
+
+            public Thumbs getThumbnails() {
+                return thumbnails;
+            }
+
+            public Localized getLocalized() {
+                return localized;
+            }
+
+            public static class Localized implements Serializable {
+                String title, description;
+
+                public String getTitle() {
+                    return title;
+                }
+
+                public String getDescription() {
+                    return description;
                 }
             }
         }
-        public class AuditDetails {
-            public boolean overallGoodStanding;
-            public boolean communityGuidelinesGoodStanding;
-            public boolean copyrightStrikesGoodStanding;
-            public boolean contentIdClaimsGoodStanding;
+        public static class ContentDetails implements Serializable {
+            RelatedPlaylists relatedPlaylists;
+
+            public RelatedPlaylists getRelatedPlaylists() {
+                return relatedPlaylists;
+            }
+
+            public static class RelatedPlaylists implements Serializable {
+                String likes, favorites, uploads, watchHistory, watchLater;
+
+                public String getLikes() {
+                    return likes;
+                }
+
+                public String getFavorites() {
+                    return favorites;
+                }
+
+                public String getUploads() {
+                    return uploads;
+                }
+
+                public String getWatchHistory() {
+                    return watchHistory;
+                }
+
+                public String getWatchLater() {
+                    return watchLater;
+                }
+            }
         }
-        public class ContentOwnerDetails {
-            public String contentOwner;
-            public Date timeLinked;
+        public static class Statistics implements Serializable {
+            long viewCount, commentCount, subsciberCount, hiddenSubscriberCount, videoCount;
+
+            public long getViewCount() {
+                return viewCount;
+            }
+
+            public long getCommentCount() {
+                return commentCount;
+            }
+
+            public long getSubsciberCount() {
+                return subsciberCount;
+            }
+
+            public long getHiddenSubscriberCount() {
+                return hiddenSubscriberCount;
+            }
+
+            public long getVideoCount() {
+                return videoCount;
+            }
+        }
+        public static class TopicDetails implements Serializable {
+            String[] topicIds;
+
+            public String[] getTopicIds() {
+                return topicIds;
+            }
+        }
+        public static class Status implements Serializable {
+            String privacyStatus, longUploadsStatus;
+            boolean isLinked;
+
+            public String getPrivacyStatus() {
+                return privacyStatus;
+            }
+
+            public String getLongUploadsStatus() {
+                return longUploadsStatus;
+            }
+
+            public boolean isLinked() {
+                return isLinked;
+            }
+        }
+        public static class BrandingSettings implements Serializable {
+            Channel channel;
+            Watch watch;
+            Image image;
+            Hint[] hints;
+
+            public Channel getChannel() {
+                return channel;
+            }
+
+            public Watch getWatch() {
+                return watch;
+            }
+
+            public Image getImage() {
+                return image;
+            }
+
+            public Hint[] getHints() {
+                return hints;
+            }
+
+            public static class Channel {
+                String title, description, keywords, defaultTab, trackingAnalyticsAccountId, featuredChannelsTitle,
+                        unsubscribedTrailer, profileColor, defaultLanguage, country;
+                String[] featuredChannelsUrls;
+                boolean moderateComments, showRelatedChannels, showBrowseView;
+
+                public String getTitle() {
+                    return title;
+                }
+
+                public String getDescription() {
+                    return description;
+                }
+
+                public String getKeywords() {
+                    return keywords;
+                }
+
+                public String getDefaultTab() {
+                    return defaultTab;
+                }
+
+                public String getTrackingAnalyticsAccountId() {
+                    return trackingAnalyticsAccountId;
+                }
+
+                public String getFeaturedChannelsTitle() {
+                    return featuredChannelsTitle;
+                }
+
+                public String getUnsubscribedTrailer() {
+                    return unsubscribedTrailer;
+                }
+
+                public String getProfileColor() {
+                    return profileColor;
+                }
+
+                public String getDefaultLanguage() {
+                    return defaultLanguage;
+                }
+
+                public String getCountry() {
+                    return country;
+                }
+
+                public String[] getFeaturedChannelsUrls() {
+                    return featuredChannelsUrls;
+                }
+
+                public boolean isModerateComments() {
+                    return moderateComments;
+                }
+
+                public boolean isShowRelatedChannels() {
+                    return showRelatedChannels;
+                }
+
+                public boolean isShowBrowseView() {
+                    return showBrowseView;
+                }
+            }
+            public static class Watch implements Serializable {
+                String textColor, backgroundColor, featuredPlaylistId;
+
+                public String getTextColor() {
+                    return textColor;
+                }
+
+                public String getBackgroundColor() {
+                    return backgroundColor;
+                }
+
+                public String getFeaturedPlaylistId() {
+                    return featuredPlaylistId;
+                }
+            }
+            public static class Image implements Serializable {
+                String bannerImageUrl, bannedModelImageIrl, watchIconImageUrl, trackingIconImageUrl,
+                        bannerTabletLowImageUrl, bannerTabletImageUrl, bannerTabletHdImageUrl, bannerTabletExtraHdImageUrl,
+                        bannerMobileLowImageUrl, bannerMobileImageUrl, bannerMobileHdImageUrl, bannerMobileExtraHdImageUrl,
+                        bannerTvImageUrl, bannerTvLowImageUrl, bannerTvMediumImageUrl, bannerTvHighImageUrl, bannerExternalUrl;
+
+                public String getBannerImageUrl() {
+                    return bannerImageUrl;
+                }
+
+                public String getBannedModelImageIrl() {
+                    return bannedModelImageIrl;
+                }
+
+                public String getWatchIconImageUrl() {
+                    return watchIconImageUrl;
+                }
+
+                public String getTrackingIconImageUrl() {
+                    return trackingIconImageUrl;
+                }
+
+                public String getBannerTabletLowImageUrl() {
+                    return bannerTabletLowImageUrl;
+                }
+
+                public String getBannerTabletImageUrl() {
+                    return bannerTabletImageUrl;
+                }
+
+                public String getBannerTabletHdImageUrl() {
+                    return bannerTabletHdImageUrl;
+                }
+
+                public String getBannerTabletExtraHdImageUrl() {
+                    return bannerTabletExtraHdImageUrl;
+                }
+
+                public String getBannerMobileLowImageUrl() {
+                    return bannerMobileLowImageUrl;
+                }
+
+                public String getBannerMobileImageUrl() {
+                    return bannerMobileImageUrl;
+                }
+
+                public String getBannerMobileHdImageUrl() {
+                    return bannerMobileHdImageUrl;
+                }
+
+                public String getBannerMobileExtraHdImageUrl() {
+                    return bannerMobileExtraHdImageUrl;
+                }
+
+                public String getBannerTvImageUrl() {
+                    return bannerTvImageUrl;
+                }
+
+                public String getBannerTvLowImageUrl() {
+                    return bannerTvLowImageUrl;
+                }
+
+                public String getBannerTvMediumImageUrl() {
+                    return bannerTvMediumImageUrl;
+                }
+
+                public String getBannerTvHighImageUrl() {
+                    return bannerTvHighImageUrl;
+                }
+
+                public String getBannerExternalUrl() {
+                    return bannerExternalUrl;
+                }
+            }
+            public static class Hint implements Serializable {
+                String property, value;
+
+                public String getProperty() {
+                    return property;
+                }
+
+                public String getValue() {
+                    return value;
+                }
+            }
+        }
+        public static class InvideoPromotion implements Serializable {
+            DefaultTiming defaultTiming;
+            Position position;
+            InvideoItem[] items;
+            boolean useSmartTiming;
+
+            public DefaultTiming getDefaultTiming() {
+                return defaultTiming;
+            }
+
+            public Position getPosition() {
+                return position;
+            }
+
+            public InvideoItem[] getItems() {
+                return items;
+            }
+
+            public boolean isUseSmartTiming() {
+                return useSmartTiming;
+            }
+
+            public static class DefaultTiming implements Serializable {
+                String type;
+                long offsetMs, durationMs;
+
+                public String getType() {
+                    return type;
+                }
+
+                public long getOffsetMs() {
+                    return offsetMs;
+                }
+
+                public long getDurationMs() {
+                    return durationMs;
+                }
+            }
+            public static class Position implements Serializable {
+                String type, cornerPosition;
+
+                public String getType() {
+                    return type;
+                }
+
+                public String getCornerPosition() {
+                    return cornerPosition;
+                }
+            }
+            public static class InvideoItem implements Serializable {
+                Id id;
+                DefaultTiming timing;
+                String customMessage;
+                boolean promotedByContentOwner;
+
+                public Id getId() {
+                    return id;
+                }
+
+                public DefaultTiming getTiming() {
+                    return timing;
+                }
+
+                public String getCustomMessage() {
+                    return customMessage;
+                }
+
+                public boolean isPromotedByContentOwner() {
+                    return promotedByContentOwner;
+                }
+
+                public static class Id implements Serializable {
+                    String type, videoId, websiteUrl, recentlyUploadedBy;
+
+                    public String getType() {
+                        return type;
+                    }
+
+                    public String getVideoId() {
+                        return videoId;
+                    }
+
+                    public String getWebsiteUrl() {
+                        return websiteUrl;
+                    }
+
+                    public String getRecentlyUploadedBy() {
+                        return recentlyUploadedBy;
+                    }
+                }
+            }
+        }
+        public static class AuditDetails implements Serializable {
+            boolean overallGoodStanding, communityGuidelinesGoodStanding, copyrightStrikesGoodStanding, contentIdClaimsGoodStanding;
+
+            public boolean isOverallGoodStanding() {
+                return overallGoodStanding;
+            }
+
+            public boolean isCommunityGuidelinesGoodStanding() {
+                return communityGuidelinesGoodStanding;
+            }
+
+            public boolean isCopyrightStrikesGoodStanding() {
+                return copyrightStrikesGoodStanding;
+            }
+
+            public boolean isContentIdClaimsGoodStanding() {
+                return contentIdClaimsGoodStanding;
+            }
+        }
+        public static class ContentOwnerDetails implements Serializable {
+            String contentOwner;
+            Date timeLinked;
+
+            public String getContentOwner() {
+                return contentOwner;
+            }
+
+            public Date getTimeLinked() {
+                return timeLinked;
+            }
         }
     }
 }

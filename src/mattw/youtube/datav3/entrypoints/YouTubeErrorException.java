@@ -3,7 +3,7 @@ package mattw.youtube.datav3.entrypoints;
 import java.io.Serializable;
 
 /**
- * @version 2018-12-08
+ * @version 2018-12-30
  * @author mattwright324
  */
 public class YouTubeErrorException extends Exception implements Serializable {
@@ -27,9 +27,9 @@ public class YouTubeErrorException extends Exception implements Serializable {
         this.requestUrl = url;
     }
 
-    public class YouTubeError implements Serializable {
+    public static class YouTubeError implements Serializable {
 
-        public class Error implements Serializable {
+        public static class Error implements Serializable {
             String domain, reason, message, locationType, location;
 
             public String getDomain() {

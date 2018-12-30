@@ -1,7 +1,7 @@
 package mattw.youtube.datav3.entrypoints;
 
 /**
- * @version 2018-12-08
+ * @version 2018-12-30
  * @author mattwright324
  */
 public final class Response {
@@ -30,9 +30,9 @@ public final class Response {
         }
     }
 
-    private boolean error = false;
-    private String jsonMessage;
-    private String requestUrl;
+    boolean error = false;
+    String jsonMessage;
+    String requestUrl;
 
     public boolean isError() {
         return error;

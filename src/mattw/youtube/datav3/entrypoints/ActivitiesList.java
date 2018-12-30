@@ -3,31 +3,27 @@ package mattw.youtube.datav3.entrypoints;
 import mattw.youtube.datav3.*;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * @link https://developers.google.com/youtube/v3/docs/activities/list
- * @version 2018-12-08
+ * @version 2018-12-30
  * @author mattwright324
  */
 @AcceptsParts(values = {Parts.ID, Parts.SNIPPET, Parts.CONTENT_DETAILS})
-public class ActivitiesList extends YouTubeResource {
+public class ActivitiesList extends YouTubeResource implements Serializable {
 
     public static final int MAX_RESULTS = 50;
 
-    public String nextPageToken;
-    public String prevPageToken;
-    public Item[] items;
+    String nextPageToken, prevPageToken;
+    Item[] items;
 
     public ActivitiesList(YouTubeData3 data) {
         super(data);
         setCost(1);
         setField("maxResults", 50);
         setDataPath("activities");
-    }
-
-    public boolean hasItems() {
-        return items != null;
     }
 
     public ActivitiesList maxResults(int maxResults) {
@@ -41,10 +37,25 @@ public class ActivitiesList extends YouTubeResource {
         return get();
     }
 
-    public class Item extends BaseItem {
+    public boolean hasItems() {
+        return items != null;
+    }
 
-        public Snippet snippet;
-        public ContentDetails contentDetails;
+    public String getNextPageToken() {
+        return nextPageToken;
+    }
+
+    public String getPrevPageToken() {
+        return prevPageToken;
+    }
+
+    public Item[] getItems() {
+        return items;
+    }
+
+    public static class Item extends BaseItem {
+        Snippet snippet;
+        ContentDetails contentDetails;
 
         public boolean hasSnippet() {
             return snippet != null;
@@ -54,52 +65,181 @@ public class ActivitiesList extends YouTubeResource {
             return contentDetails != null;
         }
 
-        public class Snippet {
-            public Date publishedAt;
-            public String channelId;
-            public String title;
-            public String description;
-            public Thumbs thumbnails;
-            public String channelTitle;
-            public String type;
-            public String groupId;
+        public Snippet getSnippet() {
+            return snippet;
         }
 
-        public class ContentDetails {
-            public Upload upload;
-            public ContentEvent like;
-            public ContentEvent favorite;
-            public ContentEvent comment;
-            public ContentEvent subscription;
-            public ContentEvent playlistItem;
-            public Recommendation recommendation;
-            public ContentEvent bulletin;
-            public Social social;
-            public ContentEvent channelItem;
+        public ContentDetails getContentDetails() {
+            return contentDetails;
+        }
 
-            public class ResourceId {
-                public String kind;
-                public String videoId;
-                public String channelId;
-                public String playlistId;
+        public static class Snippet {
+            Date publishedAt;
+            String channelId;
+            String title;
+            String description;
+            Thumbs thumbnails;
+            String channelTitle;
+            String type;
+            String groupId;
+
+            public Date getPublishedAt() {
+                return publishedAt;
             }
-            public class Upload {
-                public String videoId;
+
+            public String getChannelId() {
+                return channelId;
             }
-            public class ContentEvent {
-                public ResourceId resourceId;
+
+            public String getTitle() {
+                return title;
             }
-            public class Social {
-                public String type;
-                public ResourceId resourceId;
-                public String author;
-                public String referenceUrl;
-                public String imageUrl;
+
+            public String getDescription() {
+                return description;
             }
-            public class Recommendation {
-                public ResourceId resourceId;
-                public String reason;
-                public ResourceId seedResourceId;
+
+            public Thumbs getThumbnails() {
+                return thumbnails;
+            }
+
+            public String getChannelTitle() {
+                return channelTitle;
+            }
+
+            public String getType() {
+                return type;
+            }
+
+            public String getGroupId() {
+                return groupId;
+            }
+        }
+
+        public static class ContentDetails implements Serializable {
+            Upload upload;
+            ContentEvent like;
+            ContentEvent favorite;
+            ContentEvent comment;
+            ContentEvent subscription;
+            ContentEvent playlistItem;
+            Recommendation recommendation;
+            ContentEvent bulletin;
+            Social social;
+            ContentEvent channelItem;
+
+            public Upload getUpload() {
+                return upload;
+            }
+
+            public ContentEvent getLike() {
+                return like;
+            }
+
+            public ContentEvent getFavorite() {
+                return favorite;
+            }
+
+            public ContentEvent getComment() {
+                return comment;
+            }
+
+            public ContentEvent getSubscription() {
+                return subscription;
+            }
+
+            public ContentEvent getPlaylistItem() {
+                return playlistItem;
+            }
+
+            public Recommendation getRecommendation() {
+                return recommendation;
+            }
+
+            public ContentEvent getBulletin() {
+                return bulletin;
+            }
+
+            public Social getSocial() {
+                return social;
+            }
+
+            public ContentEvent getChannelItem() {
+                return channelItem;
+            }
+
+            public static class ResourceId implements Serializable {
+                String kind, videoId, channelId, playlistId;
+
+                public String getKind() {
+                    return kind;
+                }
+
+                public String getVideoId() {
+                    return videoId;
+                }
+
+                public String getChannelId() {
+                    return channelId;
+                }
+
+                public String getPlaylistId() {
+                    return playlistId;
+                }
+            }
+            public static class Upload implements Serializable {
+                String videoId;
+
+                public String getVideoId() {
+                    return videoId;
+                }
+            }
+            public static class ContentEvent implements Serializable {
+                ResourceId resourceId;
+
+                public ResourceId getResourceId() {
+                    return resourceId;
+                }
+            }
+            public static class Social implements Serializable {
+                ResourceId resourceId;
+                String type, author, referenceUrl, imageUrl;
+
+                public ResourceId getResourceId() {
+                    return resourceId;
+                }
+
+                public String getType() {
+                    return type;
+                }
+
+                public String getAuthor() {
+                    return author;
+                }
+
+                public String getReferenceUrl() {
+                    return referenceUrl;
+                }
+
+                public String getImageUrl() {
+                    return imageUrl;
+                }
+            }
+            public static class Recommendation implements Serializable {
+                ResourceId resourceId, seedResourceId;
+                String reason;
+
+                public ResourceId getResourceId() {
+                    return resourceId;
+                }
+
+                public ResourceId getSeedResourceId() {
+                    return seedResourceId;
+                }
+
+                public String getReason() {
+                    return reason;
+                }
             }
         }
     }

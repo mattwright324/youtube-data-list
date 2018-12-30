@@ -3,11 +3,12 @@ package mattw.youtube.datav3.entrypoints;
 import mattw.youtube.datav3.*;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * @link https://developers.google.com/youtube/v3/docs/playlists/list
- * @version 2018-12-08
+ * @version 2018-12-30
  * @author mattwright324
  */
 @AcceptsParts(values = {Parts.ID, Parts.SNIPPET, Parts.CONTENT_DETAILS, Parts.STATUS, Parts.PLAYER})
@@ -15,9 +16,8 @@ public class PlaylistsList extends YouTubeResource {
 
     public final static int MAX_RESULTS = 50;
 
-    public String nextPageToken;
-    public String prevPageToken;
-    public Item[] items;
+    String nextPageToken, prevPageToken;
+    Item[] items;
 
     public PlaylistsList(YouTubeData3 data) {
         super(data);
@@ -25,8 +25,6 @@ public class PlaylistsList extends YouTubeResource {
         setField("maxResults", 50);
         setDataPath("playlists");
     }
-
-    public boolean hasItems() { return items != null; }
 
     public PlaylistsList maxResults(int maxResults) {
         setField("maxResults", maxResults);
@@ -45,12 +43,27 @@ public class PlaylistsList extends YouTubeResource {
         return get();
     }
 
-    public class Item extends BaseItem {
+    public boolean hasItems() {
+        return items != null;
+    }
 
-        public Snippet snippet;
-        public Status status;
-        public ContentDetails contentDetails;
-        public Player player;
+    public String getNextPageToken() {
+        return nextPageToken;
+    }
+
+    public String getPrevPageToken() {
+        return prevPageToken;
+    }
+
+    public Item[] getItems() {
+        return items;
+    }
+
+    public static class Item extends BaseItem {
+        Snippet snippet;
+        Status status;
+        ContentDetails contentDetails;
+        Player player;
 
         public boolean hasSnippet() {
             return snippet != null;
@@ -68,32 +81,100 @@ public class PlaylistsList extends YouTubeResource {
             return player != null;
         }
 
-        public class Snippet {
-            public Date publishedAt;
-            public String channelId;
-            public String title;
-            public String description;
-            public Thumbs thumbnails;
-            public String channelTitle;
-            public String[] tags;
-            public String defaultLanguage;
-            public Localized localized;
-            public class Localized {
-                public String title;
-                public String description;
+        public Snippet getSnippet() {
+            return snippet;
+        }
+
+        public Status getStatus() {
+            return status;
+        }
+
+        public ContentDetails getContentDetails() {
+            return contentDetails;
+        }
+
+        public Player getPlayer() {
+            return player;
+        }
+
+        public static class Snippet implements Serializable {
+            Date publishedAt;
+            String channelId, title, description, channelTitle, defaultLanguage;
+            String[] tags;
+            Thumbs thumbnails;
+            Localized localized;
+
+            public Date getPublishedAt() {
+                return publishedAt;
+            }
+
+            public String getChannelId() {
+                return channelId;
+            }
+
+            public String getTitle() {
+                return title;
+            }
+
+            public String getDescription() {
+                return description;
+            }
+
+            public String getChannelTitle() {
+                return channelTitle;
+            }
+
+            public String getDefaultLanguage() {
+                return defaultLanguage;
+            }
+
+            public String[] getTags() {
+                return tags;
+            }
+
+            public Thumbs getThumbnails() {
+                return thumbnails;
+            }
+
+            public Localized getLocalized() {
+                return localized;
+            }
+
+            public static class Localized implements Serializable {
+                String title, description;
+
+                public String getTitle() {
+                    return title;
+                }
+
+                public String getDescription() {
+                    return description;
+                }
             }
         }
 
-        public class Status {
-            public String privacyStatus;
+        public static class Status implements Serializable {
+            String privacyStatus;
+
+            public String getPrivacyStatus() {
+                return privacyStatus;
+            }
         }
 
-        public class ContentDetails {
-            public int itemCount;
+        public static class ContentDetails implements Serializable {
+            int itemCount;
+
+            public int getItemCount() {
+                return itemCount;
+            }
         }
 
-        public class Player {
-            public String embedHtml;
+        public static class Player implements Serializable {
+            String embedHtml;
+
+            public String getEmbedHtml() {
+                return embedHtml;
+            }
         }
     }
 }

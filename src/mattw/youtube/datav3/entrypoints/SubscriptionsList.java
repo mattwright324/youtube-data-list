@@ -3,11 +3,12 @@ package mattw.youtube.datav3.entrypoints;
 import mattw.youtube.datav3.*;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * @link https://developers.google.com/youtube/v3/docs/subscriptions/list
- * @version 2018-12-08
+ * @version 2018-12-30
  * @author mattwright324
  */
 @AcceptsParts(values = {Parts.ID, Parts.SNIPPET, Parts.CONTENT_DETAILS, Parts.SUBSCRIBER_SNIPPET})
@@ -19,9 +20,8 @@ public class SubscriptionsList extends YouTubeResource {
     public static final String ORDER_RELEVANCE = "relevance";
     public static final String ORDER_UNREAD = "unread";
 
-    public String nextPageToken;
-    public String prevPageToken;
-    public Item[] items;
+    String nextPageToken, prevPageToken;
+    Item[] items;
 
     public SubscriptionsList(YouTubeData3 data) {
         super(data);
@@ -29,8 +29,6 @@ public class SubscriptionsList extends YouTubeResource {
         setField("maxResults", 50);
         setDataPath("subscriptions");
     }
-
-    public boolean hasItems() { return items != null; }
 
     public SubscriptionsList maxResults(int maxResults) {
         setField("maxResults", maxResults);
@@ -55,11 +53,26 @@ public class SubscriptionsList extends YouTubeResource {
         return get();
     }
 
-    public class Item extends BaseItem {
+    public boolean hasItems() {
+        return items != null;
+    }
 
-        public Snippet snippet;
-        public ContentDetails contentDetails;
-        public SubscriberSnippet subscriberSnippet;
+    public String getNextPageToken() {
+        return nextPageToken;
+    }
+
+    public String getPrevPageToken() {
+        return prevPageToken;
+    }
+
+    public Item[] getItems() {
+        return items;
+    }
+
+    public static class Item extends BaseItem {
+        Snippet snippet;
+        ContentDetails contentDetails;
+        SubscriberSnippet subscriberSnippet;
 
         public boolean hasSnippet() {
             return snippet != null;
@@ -73,29 +86,99 @@ public class SubscriptionsList extends YouTubeResource {
             return subscriberSnippet != null;
         }
 
-        public class Snippet {
-            public Date publishedAt;
-            public String channelTitle;
-            public String title;
-            public String description;
-            public ResourceId resourceId;
-            public String channelId;
-            public Thumbs thumbnails;
-            public class ResourceId {
-                public String kind;
-                public String channelId;
+        public Snippet getSnippet() {
+            return snippet;
+        }
+
+        public ContentDetails getContentDetails() {
+            return contentDetails;
+        }
+
+        public SubscriberSnippet getSubscriberSnippet() {
+            return subscriberSnippet;
+        }
+
+        public static class Snippet implements Serializable {
+            Date publishedAt;
+            String channelTitle, title, description, channelId;
+            ResourceId resourceId;
+            Thumbs thumbnails;
+
+            public Date getPublishedAt() {
+                return publishedAt;
+            }
+
+            public String getChannelTitle() {
+                return channelTitle;
+            }
+
+            public String getTitle() {
+                return title;
+            }
+
+            public String getDescription() {
+                return description;
+            }
+
+            public String getChannelId() {
+                return channelId;
+            }
+
+            public ResourceId getResourceId() {
+                return resourceId;
+            }
+
+            public Thumbs getThumbnails() {
+                return thumbnails;
+            }
+
+            public static class ResourceId implements Serializable {
+                String kind, channelId;
+
+                public String getKind() {
+                    return kind;
+                }
+
+                public String getChannelId() {
+                    return channelId;
+                }
             }
         }
-        public class ContentDetails {
-            public int totalItemCount;
-            public int newItemCount;
-            public String activityType;
+        public static class ContentDetails implements Serializable {
+            int totalItemCount, newItemCount;
+            String activityType;
+
+            public int getTotalItemCount() {
+                return totalItemCount;
+            }
+
+            public int getNewItemCount() {
+                return newItemCount;
+            }
+
+            public String getActivityType() {
+                return activityType;
+            }
         }
-        public class SubscriberSnippet {
-            public String title;
-            public String description;
-            public String channelId;
-            public Thumbs thumbnails;
+        public static class SubscriberSnippet implements Serializable {
+            String title, description, channelId;
+            Thumbs thumbnails;
+
+            public String getTitle() {
+                return title;
+            }
+
+            public String getDescription() {
+                return description;
+            }
+
+            public String getChannelId() {
+                return channelId;
+            }
+
+            public Thumbs getThumbnails() {
+                return thumbnails;
+            }
         }
     }
 }

@@ -3,25 +3,24 @@ package mattw.youtube.datav3.entrypoints;
 import mattw.youtube.datav3.*;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * @link https://developers.google.com/youtube/v3/docs/captions/list
- * @version 2018-12-08
+ * @version 2018-12-30
  * @author mattwright324
  */
 @AcceptsParts(values = {Parts.ID, Parts.SNIPPET})
-public class CaptionsList extends YouTubeResource {
+public class CaptionsList extends YouTubeResource implements Serializable {
 
-    public Item[] items;
+    Item[] items;
 
     public CaptionsList(YouTubeData3 data) {
         super(data);
         setCost(50);
         setDataPath("captions");
     }
-
-    public boolean hasItems() { return items != null; }
 
     public CaptionsList get(String videoId) throws IOException, YouTubeErrorException {
         setField("videoId", videoId);
@@ -33,26 +32,77 @@ public class CaptionsList extends YouTubeResource {
         return get(videoId);
     }
 
-    public class Item extends BaseItem {
-        public Snippet snippet;
+    public boolean hasItems() {
+        return items != null;
+    }
+
+    public Item[] getItems() {
+        return items;
+    }
+
+    public static class Item extends BaseItem {
+        Snippet snippet;
 
         public boolean hasSnippet() {
             return snippet != null;
         }
 
-        public class Snippet {
-            public String videoId;
-            public Date lastUpdated;
-            public String trackKind;
-            public String language;
-            public String name;
-            public String audioTrackType;
-            public boolean isCC;
-            public boolean isLarge;
-            public boolean isEasyReader;
-            public boolean isDraft;
-            public boolean isAutoSynced;
-            public String status;
+        public Snippet getSnippet() {
+            return snippet;
+        }
+
+        public static class Snippet implements Serializable {
+            Date lastUpdated;
+            String videoId, trackKind, language, name, audioTrackType, status;
+            boolean isCC, isLarge, isEasyReader, isDraft, isAutoSynced;
+
+            public Date getLastUpdated() {
+                return lastUpdated;
+            }
+
+            public String getVideoId() {
+                return videoId;
+            }
+
+            public String getTrackKind() {
+                return trackKind;
+            }
+
+            public String getLanguage() {
+                return language;
+            }
+
+            public String getName() {
+                return name;
+            }
+
+            public String getAudioTrackType() {
+                return audioTrackType;
+            }
+
+            public String getStatus() {
+                return status;
+            }
+
+            public boolean isCC() {
+                return isCC;
+            }
+
+            public boolean isLarge() {
+                return isLarge;
+            }
+
+            public boolean isEasyReader() {
+                return isEasyReader;
+            }
+
+            public boolean isDraft() {
+                return isDraft;
+            }
+
+            public boolean isAutoSynced() {
+                return isAutoSynced;
+            }
         }
     }
 }

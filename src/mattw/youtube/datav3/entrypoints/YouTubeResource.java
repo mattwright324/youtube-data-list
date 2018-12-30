@@ -11,7 +11,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Modifier;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -22,7 +21,7 @@ import java.util.stream.Collectors;
 /**
  * Serves as the base for each YouTube API entry point.
  *
- * @version 2018-12-08
+ * @version 2018-12-30
  * @author mattwright324
  */
 abstract class YouTubeResource implements Serializable {
@@ -105,26 +104,22 @@ abstract class YouTubeResource implements Serializable {
                 .map(key -> String.format("%s=%s", key, fields.get(key)))
                 .collect(Collectors.joining("&"));
 
-        Annotation[] as = this.getClass().getAnnotations();
+        AcceptsParts acceptsParts = this.getClass().getAnnotation(AcceptsParts.class);
 
-        for(Annotation a : as) {
-            if(a instanceof AcceptsParts) {
-                AcceptsParts parts = (AcceptsParts) a;
-                List<Parts> supportedParts = Arrays.asList(parts.values());
-                List<Parts> unsupported = new ArrayList<>();
+        if(acceptsParts != null) {
+            List<Parts> supportedParts = Arrays.asList(acceptsParts.values());
+            List<Parts> unsupported = new ArrayList<>();
 
-                for(Parts part : this.parts) {
-                    if(!supportedParts.contains(part)) {
-                        unsupported.add(part);
-                    }
+            for(Parts part : this.parts) {
+                if(!supportedParts.contains(part)) {
+                    unsupported.add(part);
                 }
+            }
 
-                if(!unsupported.isEmpty()) {
-                    throw new IOException(String.format(
-                            "The %s API call does not support given parts %s. Use one that is supported: %s.",
-                            this.dataPath, unsupported, supportedParts));
-                }
-                break;
+            if(!unsupported.isEmpty()) {
+                throw new IOException(String.format(
+                        "The %s API call does not support given parts %s. Use one that is supported: %s.",
+                        this.dataPath, unsupported, supportedParts));
             }
         }
 

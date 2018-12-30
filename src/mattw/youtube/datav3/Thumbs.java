@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.net.URL;
 
 /**
- * @version 2018-12-08
+ * @version 2018-12-30
  * @author mattwright324
  */
 public class Thumbs implements Serializable {
@@ -20,7 +20,7 @@ public class Thumbs implements Serializable {
     Thumbnail medium;
     Thumbnail high;
 
-    public class Thumbnail implements Serializable {
+    public static class Thumbnail implements Serializable {
         URL url;
         int width, height;
 

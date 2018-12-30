@@ -3,16 +3,17 @@ package mattw.youtube.datav3.entrypoints;
 import mattw.youtube.datav3.*;
 
 import java.io.IOException;
+import java.io.Serializable;
 
 /**
  * @link https://developers.google.com/youtube/v3/docs/videoAbuseReportReasons/list
- * @version 2018-12-08
+ * @version 2018-12-30
  * @author mattwright324
  */
 @AcceptsParts(values = {Parts.ID, Parts.SNIPPET})
-public class VideoAbuseReportReasonsList extends YouTubeResource {
+public class VideoAbuseReportReasonsList extends YouTubeResource implements Serializable {
 
-    public Item[] items;
+    Item[] items;
 
     public VideoAbuseReportReasonsList(YouTubeData3 data) {
         super(data);
@@ -24,21 +25,47 @@ public class VideoAbuseReportReasonsList extends YouTubeResource {
         return super.get();
     }
 
-    public boolean hasItems() { return items != null; }
+    public boolean hasItems() {
+        return items != null;
+    }
 
-    public class Item extends BaseItem {
+    public Item[] getItems() {
+        return items;
+    }
 
-        public Snippet snippet;
+    public static class Item extends BaseItem {
+        Snippet snippet;
 
         public boolean hasSnippet() {
             return snippet != null;
         }
 
-        public class Snippet {
-            public String label;
-            public SecondaryReason[] secondaryReasons;
-            public class SecondaryReason {
-                public String id, label;
+        public Snippet getSnippet() {
+            return snippet;
+        }
+
+        public static class Snippet implements Serializable {
+            String label;
+            SecondaryReason[] secondaryReasons;
+
+            public String getLabel() {
+                return label;
+            }
+
+            public SecondaryReason[] getSecondaryReasons() {
+                return secondaryReasons;
+            }
+
+            public static class SecondaryReason implements Serializable {
+                String id, label;
+
+                public String getId() {
+                    return id;
+                }
+
+                public String getLabel() {
+                    return label;
+                }
             }
         }
 

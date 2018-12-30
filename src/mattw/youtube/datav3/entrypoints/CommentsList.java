@@ -3,11 +3,12 @@ package mattw.youtube.datav3.entrypoints;
 import mattw.youtube.datav3.*;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * @link https://developers.google.com/youtube/v3/docs/comments/list
- * @version 2018-12-08
+ * @version 2018-12-30
  * @author mattwright324
  */
 @AcceptsParts(values = {Parts.ID, Parts.SNIPPET})
@@ -18,8 +19,8 @@ public class CommentsList extends YouTubeResource {
     public final static String FORMAT_HTML = "html";
     public final static String FORMAT_PLAIN = "plainText";
 
-    public String nextPageToken;
-    public Item[] items;
+    String nextPageToken;
+    Item[] items;
 
     public CommentsList(YouTubeData3 data) {
         super(data);
@@ -27,8 +28,6 @@ public class CommentsList extends YouTubeResource {
         setField("maxResults", 100);
         setDataPath("comments");
     }
-
-    public boolean hasItems() { return items != null; }
 
     public CommentsList maxResults(int maxResults) {
         setField("maxResults", maxResults);
@@ -52,32 +51,104 @@ public class CommentsList extends YouTubeResource {
         return get();
     }
 
-    public class Item extends BaseItem {
+    public boolean hasItems() {
+        return items != null;
+    }
 
-        public Snippet snippet;
+    public String getNextPageToken() {
+        return nextPageToken;
+    }
+
+    public Item[] getItems() {
+        return items;
+    }
+
+    public static class Item extends BaseItem {
+
+        Snippet snippet;
 
         public boolean hasSnippet() {
             return snippet != null;
         }
 
-        public class Snippet {
-            public String authorDisplayName;
-            public String authorProfileImageUrl;
-            public String authorChannelUrl;
-            public AuthorChannelId authorChannelId;
-            public String channelId;
-            public String videoId;
-            public String textDisplay;
-            public String textOriginal;
-            public String parentId;
-            public boolean canRate;
-            public String viewerRating;
-            public int likeCount;
-            public String moderationStatus;
-            public Date publishedAt;
-            public Date updatedAt;
-            public class AuthorChannelId {
-                public String value;
+        public Snippet getSnippet() {
+            return snippet;
+        }
+
+        public static class Snippet implements Serializable {
+            String authorDisplayName, authorProfileImageUrl, authorChannelUrl, channelId, videoId, textDisplay,
+                    textOriginal, parentId, moderationStatus, viewerRating;
+            AuthorChannelId authorChannelId;
+            boolean canRate;
+            int likeCount;
+            Date publishedAt, updatedAt;
+
+            public String getAuthorDisplayName() {
+                return authorDisplayName;
+            }
+
+            public String getAuthorProfileImageUrl() {
+                return authorProfileImageUrl;
+            }
+
+            public String getAuthorChannelUrl() {
+                return authorChannelUrl;
+            }
+
+            public String getChannelId() {
+                return channelId;
+            }
+
+            public String getVideoId() {
+                return videoId;
+            }
+
+            public String getTextDisplay() {
+                return textDisplay;
+            }
+
+            public String getTextOriginal() {
+                return textOriginal;
+            }
+
+            public String getParentId() {
+                return parentId;
+            }
+
+            public String getModerationStatus() {
+                return moderationStatus;
+            }
+
+            public String getViewerRating() {
+                return viewerRating;
+            }
+
+            public AuthorChannelId getAuthorChannelId() {
+                return authorChannelId;
+            }
+
+            public boolean isCanRate() {
+                return canRate;
+            }
+
+            public int getLikeCount() {
+                return likeCount;
+            }
+
+            public Date getPublishedAt() {
+                return publishedAt;
+            }
+
+            public Date getUpdatedAt() {
+                return updatedAt;
+            }
+
+            public static class AuthorChannelId implements Serializable {
+                String value;
+
+                public String getValue() {
+                    return value;
+                }
             }
         }
     }
