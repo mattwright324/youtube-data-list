@@ -38,7 +38,7 @@ public class PlaylistItemsList extends YouTubeResource {
     }
 
     public boolean hasItems() {
-        return items != null;
+        return items != null && items.length > 0;
     }
 
     public String getNextPageToken() {

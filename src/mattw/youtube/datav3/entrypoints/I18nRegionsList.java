@@ -26,7 +26,7 @@ public class I18nRegionsList extends YouTubeResource {
     }
 
     public boolean hasItems() {
-        return items != null;
+        return items != null && items.length > 0;
     }
 
     public Item[] getItems() {

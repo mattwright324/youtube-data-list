@@ -35,7 +35,7 @@ public class VideoCategoriesList extends YouTubeResource implements Serializable
     }
 
     public boolean hasItems() {
-        return items != null;
+        return items != null && items.length > 0;
     }
 
     public String getNextPageToken() {

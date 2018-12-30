@@ -1,17 +1,19 @@
 package mattw.youtube.datav3.entrypoints;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 /**
  * @version 2018-12-30
  * @author mattwright324
  */
-public class YouTubeErrorException extends Exception implements Serializable {
+public class YouTubeErrorException extends IOException implements Serializable {
 
     YouTubeError error;
     String requestUrl;
 
     YouTubeErrorException(YouTubeError error) {
+        super(error.getMessage());
         this.error = error;
     }
 

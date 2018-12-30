@@ -2,9 +2,7 @@ package mattw.example.service;
 
 import mattw.youtube.datav3.Parts;
 import mattw.youtube.datav3.YouTubeData3;
-import mattw.youtube.datav3.entrypoints.I18nLanguagesList;
-import mattw.youtube.datav3.entrypoints.SearchList;
-import mattw.youtube.datav3.entrypoints.YouTubeErrorException;
+import mattw.youtube.datav3.entrypoints.*;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -29,6 +27,81 @@ public class ExampleUsageTest {
         } catch (YouTubeErrorException e) {
             fail("Call threw an exception: " + e.getError().getMessage());
         }
+    }
+
+    @Test
+    public void readmeExamples() throws IOException {
+        // Comments posted on a video:
+        try {
+            CommentThreadsList ctl;
+            String pageToken = "";
+            int pages = 0;
+            do {
+                ctl = ((CommentThreadsList) data.commentThreadsList().part(Parts.SNIPPET))
+                        .getThreadsByVideo("dQw4w9WgXcQ", pageToken);
+                pageToken = ctl.getNextPageToken();
+
+                if(ctl.hasItems()) {
+                    for(CommentThreadsList.Item item : ctl.getItems()) {
+                        if(item.hasSnippet()) {
+                            CommentsList.Item.Snippet topLevelComment = item.getSnippet().getTopLevelComment().getSnippet();
+
+                            String author = topLevelComment.getAuthorDisplayName();
+                            String comment = topLevelComment.getTextDisplay();
+
+                            System.out.printf("%s: %s\r\n", author, comment);
+                        }
+                    }
+                } else {
+                    System.out.println("CommentThreadsList example didn't return any results.");
+                }
+                pages++;
+            } while (ctl.getNextPageToken() != null && pages < 3);
+        } catch (YouTubeErrorException e) {
+            e.printStackTrace();
+
+            fail(e.getError().getMessage());
+        }
+
+        // Find videos near you!
+        try {
+            SearchList sl;
+            String pageToken = "";
+            int pages = 0;
+            do {
+                // Location takes latitude,longitude and a radius using m, km, ft, or mi.
+                sl = ((SearchList) data.searchList().part(Parts.SNIPPET))
+                        .order(SearchList.ORDER_DATE)
+                        .getByLocation("", pageToken, "40.2822047,-76.9154449", "1mi");
+                pageToken = sl.getNextPageToken();
+
+                if(sl.hasItems()) {
+                    for(SearchList.Item item : sl.getItems()) {
+                        if(item.hasSnippet()) {
+                            SearchList.Item.Snippet snippet = item.getSnippet();
+
+                            String date = snippet.getPublishedAt().toString();
+                            String channelTitle = snippet.getChannelTitle();
+                            String videoTitle = snippet.getTitle();
+                            String videoId = item.getId().getVideoId();
+
+                            System.out.printf("%s  https://youtu.be/%s (%s): %s\r\n",
+                                    date, videoId, channelTitle, videoTitle);
+                        }
+                    }
+                } else {
+                    System.out.println("SearchList example didn't return any results.");
+                }
+                pages++;
+            } while (sl.getNextPageToken() != null && pages < 3);
+        } catch (YouTubeErrorException e) {
+            e.printStackTrace();
+
+            fail(e.getError().getMessage());
+        }
+
+        // See how much quota you used!
+        System.out.printf("Total quota units spent this session: %,d\n\n", data.getTotalSpentCost());
     }
 
     @Test (expected = YouTubeErrorException.class)

@@ -26,7 +26,7 @@ public class VideoAbuseReportReasonsList extends YouTubeResource implements Seri
     }
 
     public boolean hasItems() {
-        return items != null;
+        return items != null && items.length > 0;
     }
 
     public Item[] getItems() {
